@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register - Vitabi</title>
+  </head>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: fantasy;
+      background: #f8f8f8;
+    }
+
+    .container {
+      width: 342px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .form {
+      margin-top: 20px;
+    }
+    
+    input, select {
+      width: calc(100% - 20px);
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    select {
+      appearance: none;
+    }
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    p {
+      font-size: 14px;
+    }
+    
+    .img{
+      margin: auto;
+      height:150px;
+      width: 150px;
+    }    
+  </style>
+  <body>
+    <div class="container">
+        <a href="{% url "home" %}"><img src="{% static 'home/logo.png' %}"  class="img"></a>
+        <h2>Register</h2>
+        <form class="form" method="POST" action="">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="text" name="fullname" placeholder="Full Name" required>
+            <select name="gender" required>
+                <option value="0">Male</option>
+                <option value="1">Female</option>
+            </select>
+            <input type="date" name="dob" placeholder="Date of Birth" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="text" name="phone" placeholder="Phone number" required>
+            <select name="nationality" required>
+                <option value="" disabled selected>Select your nationality</option>
+                <option value="Vietnam">Vietnam</option>
+                <option value="Japan">Japan</option>
+                <option value="United Kingdom">United Kingdom (UK)</option>
+            </select>            
+            <select name="language" required>
+                <option value="english">English</option>
+                <option value="vietnamese">Vietnamese</option>
+                <option value="japanese">Japanese</option>
+            </select>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="password" name="repassword" placeholder="Re-enter Password" required>
+            <input type="submit" value="Register"/>
+        </form>
+
+        <p>Already have an account? <a href="{% url "login" %}">Log In</a></p>
+    </div>
+  </body>
+
+</html>

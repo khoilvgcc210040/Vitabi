@@ -1,0 +1,101 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-02-03 17:07+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+#: .\vitabi\settings.py:111
+msgid "English"
+msgstr "Tiếng Anh"
+
+#: .\vitabi\settings.py:112
+msgid "Japanese"
+msgstr "Tiếng Nhật"
+
+#: .\vitabi\settings.py:113
+msgid "Vietnamese"
+msgstr "Tiếng Việt"
+
+msgid "Language"
+msgstr "Ngôn ngữ"
+
+msgid "Your result"
+msgstr "Kết quả"
+
+msgid "You likely do not have infectious diarrhea, but you should go hospital"
+msgstr "Có thể bạn không bị tiêu chảy truyền nhiễm nhưng nên đến bệnh viện"
+
+msgid "You likely have infectious diarrhea, and you should go hospital."
+msgstr "Có khả năng bạn bị tiêu chảy truyền nhiễm và nên đến bệnh viện."
+
+msgid "You likely have infectious diarrhea."
+msgstr "Rất có thể bạn đang bị tiêu chảy truyền nhiễm."
+
+msgid "Hospital visit recommendeds"
+msgstr "Nên đến bệnh viện"
+
+msgid "Can usually be managed at home"
+msgstr "Thường có thể được quản lý tại nhà"
+
+msgid "Advice on coronavirus (COVID-19)"
+msgstr "Lời khuyên về vi-rút Corona (Covid-19)"
+
+msgid "ー A new, continuous cough"
+msgstr "ー Cơn ho mới, liên tục"
+
+msgid "ー Fever"
+msgstr "ー Sốt"
+
+msgid "ー Difficulty breathing"
+msgstr "ー Khó thở"
+
+msgid "ー Loss or change to your sense of taste or smell"
+msgstr "ー Mất hoặc thay đổi vị giác hoặc khứu giác"
+
+msgid "Most people with coronavirus have at least one of these symptoms."
+msgstr "Hầu hết những người nhiễm virus Corona đều có ít nhất một trong những triệu chứng này."
+
+msgid "7 out of 10 people with these symptoms had this condition."
+msgstr "7 trong số 10 người có những triệu chứng này đều mắc phải tình trạng này."
+
+msgid "People with symptoms similar to yours can usually manage their symptoms safely at home. You could also seek advice by visiting or contacting your local pharmacy. If your symptoms persist longer than expected, if they get worse, or if you notice new symptoms, you should consult a doctor for further assessment and advice."
+msgstr "Những người có triệu chứng tương tự như bạn thường có thể kiểm soát các triệu chứng của họ một cách an toàn tại nhà. Bạn cũng có thể tìm kiếm lời khuyên bằng cách đến thăm hoặc liên hệ với hiệu thuốc địa phương. Nếu các triệu chứng của bạn kéo dài hơn dự kiến, nếu chúng trở nên tồi tệ hơn hoặc nếu bạn nhận thấy các triệu chứng mới, bạn nên tham khảo ý kiến ​​​​bác sĩ để được đánh giá và tư vấn thêm."
+
+msgid "Less likely causes"
+msgstr "Nguyên nhân ít có khả năng hơn"
+
+msgid "ーFlu"
+msgstr "ーCúm"
+
+msgid "5 out of 1000 people with these symptoms had this condition."
+msgstr "5 trong số 1000 người có những triệu chứng này đều mắc phải tình trạng này."
+
+msgid "ーMigraine"
+msgstr "ーĐau nửa đầu"
+
+msgid "Suggested Medicines"
+msgstr "Thuốc được đề xuất"
+
+msgid "Call 911"
+msgstr "Gọi 911"
+
+msgid "Find Hospitals"
+msgstr "Tìm bệnh viện"
+
+msgid "Call 911 now, or correspondent number in your region and ask for an ambulance."
+msgstr "Gọi 911 ngay bây giờ hoặc số phóng viên trong khu vực của bạn và yêu cầu xe cứu thương."
+
+msgid "This could be an emergency. People with similar symptoms, usually need to go to the emergency department."
+msgstr "Đây có thể là một trường hợp khẩn cấp. Những người có triệu chứng tương tự thường cần đến khoa cấp cứu."

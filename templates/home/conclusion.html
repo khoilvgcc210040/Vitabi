@@ -1,0 +1,225 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Conclusion - Vitabi</title>
+  </head>
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      font-family: fantasy;
+      background: #f8f8f8;
+    }
+
+    p {
+      font-size: 30px;
+    }
+
+    .modal-result {
+      width: 342px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      border-bottom: 3px solid #eaeaea;
+      margin-bottom: 10px;
+    }
+
+    path {
+      transition: color 0.3s ease;
+    }
+    
+    path:hover {
+      color: #ccc; 
+    }
+
+    .stop-arrow {
+      font-size: 24px;
+      color: #007bff;
+      cursor: pointer;
+      color: red;
+    }
+
+    .results-modal {
+      width: 300px; 
+      margin: auto;
+      padding: 20px;
+      height: 400px;
+      position: relative;
+      padding-bottom: 20px; 
+    }
+
+    .results-header h2 {
+      font-size: 30px;
+      margin: 0 0 15px 0;
+    }
+
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #ffffff; 
+      border-radius: 8px; 
+      box-shadow: 1px 2px 10px rgba(0, 0, 0, 0.5); 
+      padding: 15px;
+      position: relative; 
+      overflow: hidden;
+    }
+
+    .conclusion-section {
+      flex: 1; 
+      padding-right: 10px;
+    }
+    
+    .percentage-section {
+      flex-basis: 50px;
+      text-align: right;
+    }
+
+    .result-item h3 {
+      font-size: 16px; 
+      color: #333;
+      margin: 0 10px 0 0; 
+      display: inline-block;
+      line-height: 20px;
+    }
+
+    .percentage {
+      font-size: 14px;
+      color: #fafafa;
+      background-color: #ea580c;
+      padding: 5px 15px; 
+      border-radius: 20px;
+      position: absolute; 
+      top: 20px; 
+      right: 5px;
+      font-weight: bold;
+    }
+
+    .result-item .conclusion-section p{
+      margin: 5px 0 0; 
+      font-size: 12px;
+      color: #3b82f6;
+    }
+
+    .result-item p:first-of-type {
+      margin-top: 10px;
+    }
+
+    .find-hospitals {
+      background-color: #000;
+      color: #fff;
+      width: 100%;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      position: absolute;
+      bottom: 0; 
+      width: 100%; 
+      left: 0;
+    }
+
+    .find-hospitals:hover {
+      background-color: #333;
+    }
+
+    .percentage-low {
+      background: #a3e635; 
+    }
+    
+    .percentage-medium {
+        background: #facc15;
+    }
+    
+    .percentage-high {
+        background: #f59e0b;
+    }
+    
+    .percentage-very-high {
+        background: #ef4444;
+    }
+  </style>
+  <body>
+    <div class="modal-result">
+      <div class="modal-header">
+        <br>
+        <a href="{% url "home" %}" class="stop-arrow"><div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+          </svg>
+        </div></a>
+      </div>
+      <div class="results-modal">
+        <div class="results-header">
+          <h2>Your result</h2>
+        </div>
+        <a style="text-decoration: none" href="{% url "conclusion-detail" id_conclusion %}">
+          <div class="result-item">
+            <div class="conclusion-section">
+              <h3>{{conclusion}}</h3>
+              {% if odds_conclusion == '>=1' %}
+                <p>Hospital visit recommended</p>
+              {% elif odds_conclusion == '<1' %}
+                <p>Can usually be managed at home.</p>
+              {% endif %}
+            </div>
+            <div class="percentage-section">
+              <p class="percentage {% if odds_css <= 25 %}percentage-low{% elif odds_css > 25 and odds_css <= 50 %}percentage-medium{% elif odds_css > 50 and odds_css <= 80 %}percentage-high{% else %}percentage-very-high{% endif %}">
+                {{ odds }}
+              </p>
+            </div>
+          </div>
+        </a>        
+        <button class="find-hospitals" data-url="{% url 'findHospital' %}">Find Hospitals</button>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const hospitalListItems = document.querySelectorAll(".find-hospitals");
+    hospitalListItems.forEach(function (item) {
+      item.addEventListener("click", function () {
+        window.location.href = this.getAttribute("data-url");
+      });
+    });
+
+    document.querySelectorAll('.stop-arrow').forEach(function(link) {
+      link.addEventListener('click', function (e) {
+        e.preventDefault(); 
+        var confirmation = confirm('Are you sure you want to cancel?');
+
+        if (confirmation) {
+          var href = this.getAttribute('href'); 
+          window.location.href = href; 
+        }
+      });
+    });
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const hospitalItems = document.querySelectorAll(".result-item");
+
+    hospitalItems.forEach(function (item) {
+      item.addEventListener("mouseover", function () {
+        this.style.transform = "scale(1.02)";
+      });
+
+      item.addEventListener("mouseout", function () {
+        this.style.transform = "scale(1)";
+      });
+    });
+  });
+</script>
+

@@ -1,0 +1,333 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Conclusion Details - Vitabi</title>
+  </head>
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      font-family: fantasy;
+      background: #f8f8f8;
+    }
+
+    p {
+      font-size: 30px;
+    }
+
+    .modal-result {
+      width: 342px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px; 
+      border-bottom: 3px solid #eaeaea;
+      margin-bottom: 10px;
+    }
+
+    path {
+      transition: color 0.3s ease;
+    }
+    
+    path:hover {
+      color: #ccc; 
+    }
+
+    .stop-arrow {
+      font-size: 24px;
+      color: #007bff;
+      cursor: pointer;
+      color: red;
+    }
+
+    .results-modal {
+      padding: 20px;
+      position: relative;
+    }
+
+    .results-header {
+      display: flex;
+      justify-content: space-between; 
+      align-items: center;
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+
+    .results-header h2 {
+      margin: 0;
+    }
+
+    .result-item {
+      display: inline-block;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #ffffff; 
+      border-radius: 8px; 
+      box-shadow: 1px 2px 10px rgba(0, 0, 0, 0.5); 
+      padding: 15px;
+      margin: 0 0 30px 0;
+      position: relative; 
+      overflow: hidden;
+    }
+
+    .conclusion-section {
+      flex: 1; 
+      padding-right: 10px;
+    }
+    
+    .percentage-section {
+      flex-basis: 50px;
+      text-align: right;
+    }
+
+    .result-item h3 {
+      font-size: 16px; 
+      color: #333;
+      {% if conclusion.odds_condition == '>=1' %}
+        margin: 0; 
+      {% elif conclusion.odds_condition == '<1' %}
+        margin: 0 60px 0 0; 
+      {% endif %} 
+      display: inline-block;
+      line-height: 20px;
+    }
+
+    .percentage {
+      font-size: 14px;
+      color: #fafafa;
+      background-color: #ea580c;
+      padding: 5px 15px; 
+      border-radius: 20px;
+      position: absolute; 
+      top: 20px; 
+      right: 5px;
+      font-weight: bold;
+    }
+
+    .result-item .conclusion-section p{
+      margin: 10px 0;
+      font-size: 12px;
+      color: #3b82f6;
+    }
+
+    .find-hospitals {
+      background-color: #000;
+      color: #fff;
+      width: 100%;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      position: absolute;
+      bottom: 0;
+      width: 100%; 
+      left: 0;
+    }
+
+    .find-hospitals:hover {
+      background-color: #333;
+    }
+
+    .responses p{
+      font-size: 12px;
+      color: #52525b;
+    }
+
+    .back-arrow {
+      font-size: 24px;
+      color: #007bff;
+      cursor: pointer;
+      padding-right: 15px;
+    }
+
+    .language-selection {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .language-option {
+      padding: 5px 10px;
+      cursor: pointer;
+      border: 1px solid #000;
+      background-color: #fff;
+      color: #000;
+    }
+
+    .language-option.selected {
+      background-color: #000;
+      color: #fff;
+    }   
+    
+    .percentage-low {
+        background: #a3e635;
+    }
+    
+    .percentage-medium {
+        background: #facc15; 
+    }
+    
+    .percentage-high {
+        background: #f59e0b;
+    }
+    
+    .percentage-very-high {
+        background: #ef4444;
+    }
+  </style>
+  <body>
+    <div class="modal-result">
+      <div class="modal-header">
+        {% if request.session.completed %}
+          <a href="{% url 'diagnose' conclusion.id %}">
+            <div class="back-arrow">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+              </svg>
+            </div>
+          </a>
+        {% else %}
+        <br>
+        {% endif %}
+        <a href="{% url "home" %}" class="stop-arrow"><div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+          </svg>
+        </div></a>
+      </div>
+      <div class="results-modal">
+        <div class="results-header">
+          <h2>{% trans "Your result" %}</h2>
+          <!-- Language Selection -->
+          <form id="language-form" action="{% url 'change_language' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" id="next" name="next" value="{{ request.path }}">
+            <div class="language-selection">
+              <button type="submit" name="language" value="en" class="language-option">EN</button>
+              <button type="submit" name="language" value="ja" class="language-option">JP</button>
+              <button type="submit" name="language" value="vi" class="language-option">VN</button>
+            </div>
+          </form>          
+        </div>
+        <div class="result-item">
+          <div class="conclusion-section">
+            {% if conclusion.odds_condition == '>=1' %}
+              <h3>{% trans "This could be an emergency. People with similar symptoms, usually need to go to the emergency department." %}</h3>
+            {% elif conclusion.odds_condition == '<1' %}
+              <h3>{% trans conclusion.text %}</h3>
+            {% endif %} 
+            {% if conclusion.odds_condition == '>=1' %}
+            {% elif conclusion.odds_condition == '<1' %}
+              {% if conclusion.odds_condition == '>=1' %}
+                <p>{% trans "Hospital visit recommendeds" %}</p>
+              {% elif conclusion.odds_condition == '<1' %}
+                <p>{% trans "Can usually be managed at home" %}</p>
+              {% endif %} 
+            {% endif %} 
+          </div>
+          {% if conclusion.odds_condition == '>=1' %}
+          {% elif conclusion.odds_condition == '<1' %}
+            <div class="percentage-section">
+              <p class="percentage {% if odds <= 25 %}percentage-low{% elif odds > 25 and odds <= 50 %}percentage-medium{% elif odds > 50 and odds <= 80 %}percentage-high{% else %}percentage-very-high{% endif %}">
+                {{ odds }}%
+              </p>
+            </div>
+          {% endif %} 
+          <div class="responses">
+            {% if conclusion.odds_condition == '>=1' %}
+              <p>{% trans "Call 911 now, or correspondent number in your region and ask for an ambulance." %}</p>
+              <p>{% trans "Advice on coronavirus (COVID-19)" %}</p>
+              <p>{% trans "ー A new, continuous cough" %}</p>
+              <p>{% trans "ー Fever" %}</p>
+              <p>{% trans "ー Difficulty breathing" %}</p>
+              <p>{% trans "ー Loss or change to your sense of taste or smell" %}</p>
+              <p>{% trans "Most people with coronavirus have at least one of these symptoms." %}</p>
+            {% elif conclusion.odds_condition == '<1' %}
+              <p>{% trans "7 out of 10 people with these symptoms had this condition." %}</p>
+              <p>{% trans "People with symptoms similar to yours can usually manage their symptoms safely at home. You could also seek advice by visiting or contacting your local pharmacy. If your symptoms persist longer than expected, if they get worse, or if you notice new symptoms, you should consult a doctor for further assessment and advice." %}</p>
+              <p style="font-weight: bold;">{% trans "Less likely causes" %}</p>
+              <p style="font-weight: bold;">{% trans "ーFlu" %}</p>
+              <p>{% trans "5 out of 1000 people with these symptoms had this condition." %}</p>
+              <p style="font-weight: bold;">{% trans "ーMigraine" %}</p>
+              <p>{% trans "5 out of 1000 people with these symptoms had this condition." %}</p>
+              <p style="font-weight: bold;">{% trans "Suggested Medicines" %}</p>
+              <p>XXXXXXX</p>
+              <p>XXXXXXX</p>
+            {% endif %} 
+          </div>
+        </div>
+        {% if conclusion.odds_condition == '>=1' %}
+          <button class="find-hospitals">{% trans "Call 911" %}</button>
+        {% elif conclusion.odds_condition == '<1' %}
+          <button class="find-hospitals" data-url="{% url 'findHospital' %}">{% trans "Find Hospitals" %}</button>
+        {% endif %}   
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const hospitalListItems = document.querySelectorAll(".find-hospitals");
+    hospitalListItems.forEach(function (item) {
+      item.addEventListener("click", function () {
+        window.location.href = this.getAttribute("data-url");
+      });
+    });
+
+    document.querySelectorAll('.stop-arrow').forEach(function(link) {
+      link.addEventListener('click', function (e) {
+        e.preventDefault(); 
+        var confirmation = confirm('Are you sure you want to cancel?');
+
+        if (confirmation) {
+          var href = this.getAttribute('href'); 
+          window.location.href = href; 
+        }
+      });
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const languageButtons = document.querySelectorAll('.language-option');
+    const nextField = document.getElementById('next');
+    
+    languageButtons.forEach(function(button) {
+      button.addEventListener('click', function (e) {
+        const currentLangPrefix = window.location.pathname.split('/')[1];
+        const chosenLanguage = this.value;
+        
+        let newLangPrefix = chosenLanguage;
+        
+        const newPath = window.location.pathname.replace('/' + currentLangPrefix, '/' + newLangPrefix);
+        nextField.value = window.location.origin + newPath + window.location.search;
+        
+        e.preventDefault();
+        document.getElementById('language-form').submit();
+      });
+    });
+  });  
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const languageButtons = document.querySelectorAll('.language-option');
+    languageButtons.forEach(function(button) {
+      button.addEventListener('click', function () {
+        languageButtons.forEach(button => button.classList.remove('selected'));
+        this.classList.add('selected');
+      });
+    });
+  });  
+</script>
+
+
+
+

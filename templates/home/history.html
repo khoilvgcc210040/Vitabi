@@ -1,0 +1,312 @@
+{% load static %}
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>History - Vitabi</title>
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+  </head>
+  <style>
+    html, body {
+      font-family: fantasy;
+      margin: 0;
+      padding: 0;
+      background: #f8f8f8;
+    }
+
+    .container {
+      width: 342px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .page-header {
+        display: flex;
+        align-items: center;
+    }
+    
+    .page-header .back-arrow {
+        font-size: 24px;
+        color: #007bff;
+        cursor: pointer;
+        padding-right: 15px;
+    }
+    
+    .page-header path {
+      transition: color 0.3s ease;
+    }
+    
+    .page-header path:hover {
+      color: #ccc; 
+    }
+    
+    .page-header h1 {
+      font-size: 25px;
+      width: 80%;
+      text-align: center;
+    }
+
+    .hospital-item {
+      margin: 20px 0;
+      display: flex;
+      width: 340px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      overflow: hidden; 
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+
+    .hospital-photo {
+      width: 120px; 
+      height: auto; 
+      object-fit: cover;
+    }
+
+    .hospital-info {
+      padding: 10px;
+      flex-grow: 1;
+    }
+
+    .hospital-info h2 {
+      margin: 10px 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 18px;
+      max-width: 320px;
+      color: #0f172a;
+    }
+
+    .hospital-rating {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: #0056b3;
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 3px;
+      font-weight: bold;
+    }
+
+    .hospital-name {
+      font-size: 18px;
+      color: #333;
+      margin: 5px 0;
+    }
+
+    .hospital-item p {
+      font-size: 10px;
+      margin: 5px 0;
+      color: #0f172a;
+    }
+
+    .hospital-item p:last-of-type {
+      float: right;
+      display: inline-block;
+      padding: 5px;
+      color: #fff;
+      border-radius: 3px;
+      font-weight: bold;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      background-color: #f8f8f8; 
+      padding: 10px 0;
+      color: #555;
+    }
+    footer a {
+      color: #555;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: #000;
+      text-align: center;
+    }
+
+    .nav-link img {
+      display: block;
+      margin: 0 auto; 
+      width: 24px; 
+      height: auto;
+    }
+
+    .nav-link span {
+      display: block;
+      font-size: 12px;
+    }
+
+    .heart {
+      font-size: 40px;
+      color: black;
+      cursor: pointer;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .truncated {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 150px;
+    }
+
+    .percentage-low {
+        background: #a3e635;
+    }
+    
+    .percentage-medium {
+        background: #facc15; 
+    }
+    
+    .percentage-high {
+        background: #f59e0b; 
+    }
+    
+    .percentage-very-high {
+        background: #ef4444;
+    }
+    
+    .percentage {
+        border-radius: 20px;
+        padding: 4px 12px;
+        font-weight: bold;
+        margin-left: 8px;
+        display: inline-block;
+        width: 50px;
+        text-align: center;
+    }
+
+    .hospital-list-container {
+        max-height: 400px; 
+        overflow-y: auto;
+        scrollbar-width: none; 
+    }
+    
+    .hospital-list-container::-webkit-scrollbar {
+        display: none; 
+    }  
+  </style>
+  <body>
+    <div class="container">
+        <header class="page-header">
+            <a href="{% url "mydata" %}"><div class="back-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                </svg>
+            </div></a>
+            <h1>History</h1>
+        </header>
+        {% if histories %}
+        <div class="hospital-list-container" id="hospital-list">
+          {% for history in histories %}
+              <a style="text-decoration: none" href="{% url "conclusion-detail" history.id_conclusion %}">
+                  <div class="hospital-item">
+                      <div class="hospital-info">
+                          <h2>{{ history.conclusion_text }}</h2>
+                          <p>{{history.created_at|date:"F d, Y H:i A"}}</p>
+                          <p class="percentage {% if history.odds_percentage|to_float <= 25 %}percentage-low{% elif history.odds_percentage|to_float > 25 and history.odds_percentage|to_float <= 50 %}percentage-medium{% elif history.odds_percentage|to_float > 50 and history.odds_percentage|to_float <= 80 %}percentage-high{% else %}percentage-very-high{% endif %}">
+                              {{ history.odds_percentage }}
+                          </p>
+                      </div>
+                  </div>
+              </a>
+          {% endfor %}
+        </div>
+        {% else %}
+        <p style="text-align: center; margin: 30px 0 0 0">Not found</p>
+        {% endif %} 
+        <br>      
+      <div class="footer">
+        <a href="{% url "home" %}" class="nav-link">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-house"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"
+            />
+          </svg>
+          <span>Home</span>
+        </a>
+        <a href="#" class="nav-link">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-calendar-event"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"
+            />
+            <path
+              d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"
+            />
+          </svg>
+          <span>Care</span>
+        </a>
+        <a href="{% url 'mydata' %}" class="nav-link">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-card-list"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z"
+            />
+            <path
+              d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8m0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0M4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"
+            />
+          </svg>
+          <span>My Data</span>
+        </a>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const hospitalListItems = document.querySelectorAll(".hospital-item");
+    hospitalListItems.forEach(function (item) {
+      item.addEventListener("click", function () {
+        window.location.href = this.getAttribute("data-url");
+      });
+    });
+  });
+  
+  document.addEventListener("DOMContentLoaded", function () {
+    const hospitalItems = document.querySelectorAll(".hospital-item");
+
+    hospitalItems.forEach(function (item) {
+      item.addEventListener("mouseover", function () {
+        this.style.transform = "scale(1.02)";
+      });
+
+      item.addEventListener("mouseout", function () {
+        this.style.transform = "scale(1)";
+      });
+    });
+  });
+</script>

@@ -1,0 +1,228 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Personal Details - Vitabi</title>
+</head>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    font-family: fantasy;
+    background: #f8f8f8;
+  }
+
+  .container {
+    width: 342px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .page-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .page-header .back-arrow {
+    font-size: 24px;
+    color: #007bff;
+    cursor: pointer;
+    padding-right: 15px;
+  }
+
+  .page-header path {
+    transition: color 0.3s ease;
+  }
+
+  .page-header path:hover {
+    color: #ccc; 
+  }
+
+  .page-header h1 {
+    font-size: 30px;
+    width: 80%;
+    text-align: center;
+  }
+
+  a{
+    text-decoration: none;
+  }
+
+  .detail-section {
+    padding: 10px;
+    max-width: 400px; 
+    margin: auto; 
+  }
+
+  .field-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .detail-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px 15px;
+    max-width: 300px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 10px; 
+  }
+
+  .item-label {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+  }
+
+  .item-value {
+    font-size: 16px;
+    color: #333;
+  }
+
+  .item-action {
+    text-decoration: none;
+    color: #333;
+    font-size: 20px;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 24px; 
+    height: 24px;
+    display: flex;
+    justify-content: center;
+  }
+
+
+  .footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #f8f8f8;
+    padding: 10px 0; 
+    color: #555;
+  }
+
+  .nav-link {
+    text-decoration: none;
+    color: #000;
+    text-align: center;
+  }
+
+  .nav-link img {
+    display: block;
+    margin: 0 auto; 
+    width: 24px; 
+    height: auto;
+  }
+
+  .nav-link span {
+    display: block;
+    font-size: 12px; 
+  }
+</style>
+<body>
+    <div class="container">
+        <header class="page-header">
+            <a href="{% url "account" %}"><div class="back-arrow">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+              </svg>
+            </div></a>
+            <h1>Personal Details</h1>
+        </header>
+        <div class="details-section">
+            <a href="{%url 'update_fullname'%}" class="detail-item">
+              <div class="field-content">
+                <div class="item-label">Name</div>
+                <div class="item-value">{{fullname}}</div>
+              </div>
+              <div class="item-action">&gt;</div>
+            </a>
+
+            <a href="{%url 'update_gender'%}" class="detail-item">
+              <div class="field-content">
+                <div class="item-label">Gender/Sex</div>
+                
+                {% if gender == 0 %}
+                    <span class="item-value">Male</span>
+                {% else %}
+                    <span class="item-value">Female</span>
+                {% endif %}
+
+              </div>
+              <div class="item-action">&gt;</div>
+            </a>
+
+            <a href="{%url 'update_dob'%}" class="detail-item">
+              <div class="field-content">
+                <div class="item-label">Date of Birth</div>
+                <div class="item-value">{{dob|date:"d/m/Y"}}</div>
+              </div>
+              <div class="item-action">&gt;</div>
+            </a>
+
+            <a href="{%url 'update_email'%}" class="detail-item">
+              <div class="field-content">
+                <div class="item-label">Email Address</div>
+                <div class="item-value">{{email}}</div>
+              </div>
+              <div class="item-action">&gt;</div>
+            </a>
+
+            <a href="{%url 'update_nationality'%}" class="detail-item">
+              <div class="field-content">
+                <div class="item-label">Nationality</div>
+                <div class="item-value">{{nationality}}</div>
+              </div>
+              <div class="item-action">&gt;</div>
+            </a>
+
+            <a href="{%url 'update_language'%}" class="detail-item">
+              <div class="field-content">
+                <div class="item-label">Language you speak</div>
+                {% if language == "english" %}
+                    <div class="item-value">English</div>
+                {% elif language == "vietnamese" %}
+                    <div class="item-value">Vietnamese</div>
+                {% elif language == "japanese" %}
+                    <div class="item-value">Japanese</div>
+                {% endif %}
+              </div>
+              <div class="item-action">&gt;</div>
+            </a>
+        </div>
+
+
+        <div class="footer">
+            <a href="{% url "home" %}" class="nav-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+              </svg>
+              <span>Home</span>
+            </a>
+            <a href="#" class="nav-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16">
+                <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
+                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+              </svg>
+              <span>Care</span>
+            </a>
+            <a href="{% url 'mydata' %}" class="nav-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
+                <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z"/>
+                <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8m0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0M4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"/>
+              </svg>
+              <span>My Data</span>
+            </a>
+          </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-02-03 17:07+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+#: .\vitabi\settings.py:111
+msgid "English"
+msgstr "英語"
+
+#: .\vitabi\settings.py:112
+msgid "Japanese"
+msgstr "日本語"
+
+#: .\vitabi\settings.py:113
+msgid "Vietnamese"
+msgstr "ベトナム語"
+
+msgid "Language"
+msgstr "言語"
+
+msgid "Your result"
+msgstr "結果"
+
+msgid "You likely do not have infectious diarrhea, but you should go hospital"
+msgstr "感染性の下痢ではない可能性がありますが、病院に行く必要があります"
+
+msgid "You likely have infectious diarrhea, and you should go hospital."
+msgstr "感染性の下痢の可能性が高いです。病院に行くべきです。"
+
+msgid "You likely have infectious diarrhea."
+msgstr "感染性の下痢の可能性が高いです。"
+
+msgid "Hospital visit recommendeds"
+msgstr "病院の訪問をお勧めします"
+
+msgid "Can usually be managed at home"
+msgstr "通常、家で管理できます"
+
+msgid "Advice on coronavirus (COVID-19)"
+msgstr "新型コロナウイルス（COVID-19）に関するアドバイス"
+
+msgid "ー A new, continuous cough"
+msgstr "ー 新しい、持続的な咳"
+
+msgid "ー Fever"
+msgstr "ー 発熱"
+
+msgid "ー Difficulty breathing"
+msgstr "ー 呼吸困難"
+
+msgid "ー Loss or change to your sense of taste or smell"
+msgstr "ー 味覚や嗅覚の喪失または変化"
+
+msgid "Most people with coronavirus have at least one of these symptoms."
+msgstr "コロナウイルスを持つほとんどの人がこれらの症状の少なくとも1つを持っています。"
+
+msgid "7 out of 10 people with these symptoms had this condition."
+msgstr "これらの症状のある10人のうち7人がこの状態にありました。"
+
+msgid "People with symptoms similar to yours can usually manage their symptoms safely at home. You could also seek advice by visiting or contacting your local pharmacy. If your symptoms persist longer than expected, if they get worse, or if you notice new symptoms, you should consult a doctor for further assessment and advice."
+msgstr "あなたの症状と似ている人々は通常、自宅で安全に症状を管理できます。また、地元の薬局を訪問したり、連絡を取ったりしてアドバイスを求めることもできます。予想よりも症状が長引く、悪化する、または新しい症状が現れる場合は、さらなる評価とアドバイスのために医師に相談する必要があります。"
+
+msgid "Less likely causes"
+msgstr "可能性の低い原因"
+
+msgid "ーFlu"
+msgstr "ーインフルエンザ"
+
+msgid "5 out of 1000 people with these symptoms had this condition."
+msgstr "これらの症状のある1000人のうち5人がこの状態にありました。"
+
+msgid "ーMigraine"
+msgstr "ー片頭痛"
+
+msgid "Suggested Medicines"
+msgstr "推奨される薬"
+
+msgid "Call 911"
+msgstr "911に電話"
+
+msgid "Find Hospitals"
+msgstr "病院を検索"
+
+msgid "Call 911 now, or correspondent number in your region and ask for an ambulance."
+msgstr "今すぐ911に電話するか、あなたの地域の対応する番号に電話して救急車を要求してください。"
+
+msgid "This could be an emergency. People with similar symptoms, usually need to go to the emergency department."
+msgstr "これは緊急事態かもしれません。同様の症状を持つ人々は、通常、救急部に行く必要があります。"
+

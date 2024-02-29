@@ -1,0 +1,293 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hospital Information</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  </head>
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      font-family: fantasy;
+      background: #f8f8f8;
+    }
+
+    .container {
+      width: 342px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .hospital-card {
+      width: 400px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card-header h1 {
+      font-size: 20px;
+    }
+
+    h2 {
+      font-weight: 100;
+      color: #333;
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+
+    .card {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      margin: 10px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-footer {
+      text-align: center;
+      padding: 10px;
+    }
+
+    .proceed-button {
+      width: 320px;
+      background-color: #000;
+      color: white;
+      font-weight: bold;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .proceed-button:hover {
+      background-color: #333;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      padding-top: 100px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0, 0, 0);
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    hr{
+        margin: 0 0 10px 0;
+    }
+
+    .card-header .back-arrow {
+        font-size: 24px;
+        color: #007bff;
+        cursor: pointer;
+        padding-right: 15px;
+    }
+    
+    .back-arrow path {
+      transition: color 0.3s ease;
+    }
+    
+    .back-arrow path:hover {
+      color: #ccc; 
+    }
+
+    .favorite-button{
+        color: #27272a;
+        cursor: pointer;
+        background-color: #a1a1aa;
+        border-radius: 20px;
+        padding: 8px 7px 2px 7px;
+    }
+
+    .favorite-button:hover{
+        background-color: #d4d4d8;
+        color: #ef4444;
+    }
+
+    .delete-favorite-button{
+      color: #ef4444;
+      cursor: pointer;
+      background-color: #d4d4d8;
+      border-radius: 20px;
+      padding: 8px 7px 2px 7px;
+    }
+
+    .delete-favorite-button:hover{
+      background-color: #a1a1aa;
+      color: #27272a;
+    }
+
+    .carousel {
+      display: flex;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+    }
+
+    .carousel img{
+      height: 50px;
+      display: block;
+    }
+    
+    .carousel-item {
+      color: black;
+      margin: 0 5px;
+      flex: 0 0 auto;
+      position: relative;
+    }   
+
+    .card-body input{
+      margin: 10px;
+    }
+
+    .card-body h3{
+      margin: 10px 0;
+    }
+  </style>
+  <body>
+    <div class="container">
+        <div class="card-header">
+            <a href="{% url "findHospital" %}"><div class="back-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                    <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                </svg>
+            </div></a>
+          <h1>Filter</h1>
+          <a href="" style="text-decoration: none; color: #000;" >Reset</a>
+        </div>
+        <hr>
+        <div class="card-body">
+          <form action="{% url 'findHospital' %}" method="get">
+                <label>
+                    <input type="checkbox" name="affiliated_with_insurers">
+                    Affiliated with insurers
+                </label><br>
+    
+                <label>
+                    <input type="checkbox" name="english_speaking_staff">
+                    English-speaking staff available
+                </label>
+    
+                <h3>Distance</h3>
+                <label>
+                    <input type="checkbox" name="distance" value="1km">
+                    Less than 1km (1)
+                </label><br>
+    
+                <label>
+                    <input type="checkbox" name="distance" value="3km">
+                    Less than 3km (2)
+                </label><br>
+    
+                <label>
+                    <input type="checkbox" name="distance" value="5km">
+                    Less than 5km (6)
+                </label>
+    
+                <h3>Opening Hours</h3>
+                <label>
+                    <input type="checkbox" name="opening_hours" value="current_time">
+                    Current time
+                </label><br>
+    
+                <label>
+                    <input type="checkbox" name="opening_hours" value="midnight">
+                    Midnight (9PM~)
+                </label><br>
+    
+                <label>
+                    <input type="checkbox" name="opening_hours" value="0_0">
+                    0:00 ~ 0:00
+                </label>
+                <br>
+                <div class="card-footer">
+                  <button class="proceed-button">Search</button>
+                </div>
+          </form>
+        </div>
+    </div>
+  </body>
+</html>
+
+<script>
+    let currentIndex = 0; 
+    const slides = document.querySelectorAll(".slide"); 
+    const totalSlides = slides.length;
+
+    function moveSlide(direction) {
+        currentIndex += direction; 
+        if (currentIndex >= totalSlides) { 
+        currentIndex = 0;
+        } else if (currentIndex < 0) { 
+        currentIndex = totalSlides - 1;
+        }
+        updateSlidePosition();
+    }
+
+    function updateSlidePosition() {
+        for (let i = 0; i < slides.length; i++) {
+        slides[i].style.transform = `translateX(-${currentIndex * 100}%)`; 
+        slides[i].style.transition = 'transform 0.5s ease-out'; 
+        }
+    }
+
+    function enlargeImage(img) {
+        let modal = document.getElementById("myModal");
+        let modalImg = document.getElementById("img01");
+        let captionText = document.getElementById("caption");
+        modal.style.display = "block";
+        modalImg.src = img.src;
+        captionText.innerHTML = img.alt;
+
+        let span = document.getElementsByClassName("close")[0];
+
+        span.onclick = function () {
+        modal.style.display = "none";
+        };
+    }
+
+    var map = L.map("map").setView([0, 0], 13);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "© OpenStreetMap contributors",
+    }).addTo(map);
+
+    fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+        "{{ hospital.address }}"
+        )}`
+    )
+        .then((response) => response.json())
+        .then((data) => {
+        if (data.length > 0) {
+            var lat = data[0].lat;
+            var lon = data[0].lon;
+            map.setView([lat, lon], 15); 
+            L.marker([lat, lon]).addTo(map);
+        } else {
+            console.log("No results found");
+        }
+        })
+        .catch((error) => console.log("Error:", error));
+</script>
+  

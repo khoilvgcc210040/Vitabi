@@ -1,0 +1,212 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Diagnose - Vitabi</title>
+  </head>
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      font-family: fantasy;
+      background: #f8f8f8;
+    }
+
+    p {
+      font-size: 30px;
+    }
+
+    .modal {
+      width: 342px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      border-bottom: 3px solid #ccc;
+    }
+
+    .back-arrow {
+      font-size: 24px;
+      color: #007bff;
+      cursor: pointer;
+      padding-right: 15px;
+    }
+
+    path {
+      transition: color 0.3s ease;
+    }
+    
+    path:hover {
+      color: #ccc; 
+    }
+
+    .stop-arrow {
+      font-size: 24px;
+      color: #007bff;
+      cursor: pointer;
+      color: red;
+    }
+    
+
+    h2 {
+      font-size: 16px; 
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .continue-button {
+      display: block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #4caf50; 
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px; 
+    }
+
+    .symptom-duration-form {
+      max-width: 350px; 
+      margin: auto;
+      padding: 10px;
+      border-radius: 10px; 
+      background: #fff; 
+    }
+
+    .symptom-duration-form h2 {
+      font-size: 18px;
+      text-align: left; 
+      margin-bottom: 20px; 
+    }
+
+    .symptom-duration-form label {
+      display: block; 
+      position: relative; 
+      padding-left: 35px; 
+      margin-bottom: 15px;
+      cursor: pointer;
+      font-size: 16px; 
+    }
+    .chosse {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #999;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .symptom-duration-form input[type="radio"] {
+      position: absolute; 
+      left: 0;
+      top: 0;
+    }
+
+    .symptom-duration-form input[type="radio"] + label:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      border: 2px solid #ccc;
+      background-color: #fff;
+      border-radius: 3px;
+    }
+
+    .symptom-duration-form input[type="radio"]:checked + label:before {
+      content: "\2713"; 
+      color: #000; 
+      font-size: 16px;
+      text-align: center;
+      line-height: 20px; 
+    }
+  </style>
+  <body>
+    <div class="modal">
+      <div class="modal-header">
+        {% if question.is_first_question %}
+          <a href="{% url 'home' %}">
+            <div class="back-arrow">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+              </svg>
+            </div>
+          </a>
+        {% else %}
+          <a href="{% url 'diagnose' previous_question_id %}">
+            <div class="back-arrow">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+              </svg>
+            </div>
+          </a>
+        {% endif %}
+          <a href="{% url "home" %}" class="stop-arrow"><div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+            </svg>
+          </div></a>
+      </div>
+      <form class="symptom-duration-form" method="POST" >
+        {% csrf_token %}
+        <h2>{{ question.text }}</h2>
+
+        <div class="chosse">
+          {% for answer in question.answers.all %}
+          <label style="margin: 10px 0;" for="answer{{ answer.id }}">
+            <input
+              type="radio"
+              id="answer{{ answer.id }}"
+              name="answer"
+              value="{{ answer.id }}"
+              class="answer-option"
+            />
+            {{ answer.text }}
+          </label>
+          {% endfor %}
+        </div>
+        <button type="submit" class="continue-button" style="display: none">
+          Continue
+        </button>
+      </form>
+    </div>
+  </body>
+</html>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var radioButtons = document.querySelectorAll(".answer-option");
+    var continueButton = document.querySelector(".continue-button");
+
+    radioButtons.forEach(function (radio) {
+      radio.addEventListener("change", function () {
+        if (this.checked) {
+          continueButton.style.display = "block";
+        }
+      });
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.stop-arrow').forEach(function(link) {
+      link.addEventListener('click', function (e) {
+        e.preventDefault(); 
+        var confirmation = confirm('Are you sure you want to cancel?');
+
+        if (confirmation) {
+          var href = this.getAttribute('href'); 
+          window.location.href = href; 
+        }
+      });
+    });
+  });
+</script>

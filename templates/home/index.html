@@ -1,0 +1,348 @@
+{% load static %} 
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home - Vitabi</title>
+  <link rel="stylesheet" href="{% static "home/index.css" %}">
+</head>
+<style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      font-family: fantasy;
+      background: #f8f8f8;
+    }
+
+    p {
+      font-size: 30px;
+    }
+
+    .container {
+      width: 342px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+    }
+
+    .header-greeting {
+      text-align: left;
+    }
+
+    .header-greeting h1 {
+      font-size: 24px; 
+      margin: 0;
+      padding: 0;
+      color: #333; 
+    }
+
+    .header-greeting p {
+      margin: 0;
+      padding: 0;
+      color: #666; 
+      font-size: 16px; 
+    }
+
+    .header-avatar {
+      display: flex;
+      align-items: center;
+    }
+
+    .avatar-image {
+      width: 25px; 
+      border-radius: 50%; 
+      margin-right: 10px; 
+    }
+
+    .auth-link {
+      text-decoration: none;
+      color: #000;
+      font-size: 16px; 
+    }
+
+    .help-container {
+      text-align: left;
+      padding: 5px 20px;
+    }
+
+    .help-container h2 {
+      margin-bottom: 10px; 
+      font-size: 24px; 
+    }
+
+    .button-link {
+      background-color: #ffffff; 
+      border: 2px solid #000000; 
+      border-radius: 5px; 
+      padding: 10px 20px; 
+      margin: 10px 0; 
+      display: inline-block; 
+      cursor: pointer; 
+      font-size: 16px; 
+      width: 300px; 
+    }
+
+    .button-link a {
+      font-weight: bold;
+      font-size: 20px;
+      text-decoration: none; 
+      color: #000000; 
+      display: block; 
+    }
+
+
+    .button-link:hover {
+      background-color: #f2f2f2; 
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .result {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      padding: 16px;
+      max-width: 360px;
+      margin: 20px;
+    }
+
+    .result h2 {
+      font-size: 20px;
+      color: #333;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 5px 0;
+    }
+
+    .result h2::after {
+      color: white;
+      border-radius: 50%;
+      padding: 4px 12px;
+      font-size: 14px;
+      font-weight: bold;
+      margin-left: 8px;
+    }
+
+    .date p {
+      font-size: 10px;
+      color: #666;
+      margin: 8px 0;
+    }
+
+    .conclusion p {
+      font-size: 15px;
+      color: #666;
+      margin: 8px 0;
+      font-weight: bold;
+      line-height: 23px;
+    }
+
+    .percentage-css{
+      display: block;
+      text-align: right; 
+      margin-top: 15px; 
+    }
+
+    .percentage-low {
+      background: #a3e635; 
+    }
+    
+    .percentage-medium {
+      background: #facc15;
+    }
+    
+    .percentage-high {
+      background: #f59e0b; 
+    }
+    
+    .percentage-very-high {
+      background: #ef4444; 
+    }
+    
+    .percentage {
+      border-radius: 20px;
+      color: white;
+      padding: 4px 12px;
+      font-weight: bold;
+      margin-left: 8px;
+      display: inline-block;
+      width: 50px;
+      text-align: center;
+    }    
+
+    .footer {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      background-color: #f8f8f8;
+      padding: 10px 0; 
+      color: #555;
+    }
+    footer a {
+      color: #555;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: #000; 
+      text-align: center;
+    }
+
+    .nav-link img {
+      display: block;
+      margin: 0 auto; 
+      width: 24px;
+      height: auto;
+    }
+
+    .nav-link span {
+      display: block;
+      font-size: 12px; 
+    }
+</style>
+  <body>
+    <div class="container">
+      <p>Vitabi</p>
+      <div class="header">
+        <div class="header-greeting">
+          {% if request.user.is_authenticated %}
+          <h1>{{ greeting }} {{ fullname }}</h1>
+          {% else %}
+          <h1>{{ greeting }}</h1>
+          {% endif %}
+        </div>
+        <div class="header-avatar">
+          <img
+            src="{%static 'home/avatar-default.svg'%}"
+            alt="Avatar"
+            class="avatar-image"
+          />
+          {% if request.user.is_authenticated %}
+          <a href="{% url 'logout' %}" class="auth-link">Logout</a>
+          {% else %}
+          <a href="{% url 'login' %}" class="auth-link">Login</a>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="help-container">
+        <h2>How can we help you?</h2>
+        <button class="button-link">
+          <a href="{% url 'diagnose_start' %}">Check symptoms</a>
+        </button>
+        <button class="button-link">
+          <a href="{% url 'findHospital' %}">Find a hospital</a>
+        </button>
+      </div>
+
+      {% if last_session %}
+        <a href="{% url "conclusion-detail" last_session.id_conclusion %}">
+          <div class="result">
+            <h2>Your Latest Result</h2>
+            {% if last_session %}
+              <div class="date">
+                <p class="date">{{ last_session.created_at|date:"F d, Y H:i A" }}</p>
+              </div>
+              <div class="conclusion">
+                <p class="conclusion">{{ last_session.conclusion_text }}</p>
+              </div>
+              <div class="percentage-css">
+                <span class="percentage {% if last_session.odds_percentage|to_float <= 25 %}percentage-low{% elif last_session.odds_percentage|to_float > 25 and last_session.odds_percentage|to_float <= 50 %}percentage-medium{% elif last_session.odds_percentage|to_float > 50 and last_session.odds_percentage|to_float <= 80 %}percentage-high{% else %}percentage-very-high{% endif %}">
+                  {{ last_session.odds_percentage }}
+              </span>
+              </div>              
+            {% endif %}
+          </div>
+        </a>
+      {% else %}
+        <div class="result">
+          <h2>Your Latest Result</h2>
+        </div>
+      {% endif %}
+
+      <div class="footer">
+        <a href="{% url "home" %}" class="nav-link">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-house"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"
+            />
+          </svg>
+          <span>Home</span>
+        </a>
+        <a href="#" class="nav-link">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-calendar-event"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"
+            />
+            <path
+              d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"
+            />
+          </svg>
+          <span>Care</span>
+        </a>
+        <a href="{% url 'mydata' %}" class="nav-link">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-card-list"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z"
+            />
+            <path
+              d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8m0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0M4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"
+            />
+          </svg>
+          <span>My Data</span>
+        </a>
+      </div>
+    </div>
+  </body>
+</html>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const hospitalItems = document.querySelectorAll(".result");
+
+    hospitalItems.forEach(function (item) {
+      item.addEventListener("mouseover", function () {
+        this.style.transform = "scale(1.02)";
+      });
+
+      item.addEventListener("mouseout", function () {
+        this.style.transform = "scale(1)";
+      });
+    });
+  });
+</script>

@@ -1,0 +1,196 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Update Personal - Vitabi</title>
+</head>
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: fantasy;
+        background: #f8f8f8;
+    }
+
+    .container {
+        width: 342px;
+        margin: 50px auto;
+        background: #fff;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .page-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .page-header .back-arrow {
+        font-size: 24px;
+        color: #007bff;
+        cursor: pointer;
+        padding-right: 15px;
+        background-color: white
+    }
+
+    .page-header path {
+        transition: color 0.3s ease;
+    }
+    
+    .page-header path:hover {
+        color: #ccc; 
+    }
+
+    .page-header h1 {
+        font-size: 20px;
+        width: 80%;
+        text-align: center;
+    }
+
+    h1 {
+        margin: 0;
+        color: #333;
+    }
+
+    form {
+        width: 100%;    
+        max-width: 300px;
+        margin: auto;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    input[type="number"],
+    select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    input[type="submit"] {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+</style>
+<body>
+    <div class="container">
+        <header class="page-header">
+            {% if page == "height" or page == "weight" %}
+                <a href="{% url "medicalInfo" %}"><div class="back-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                    <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                    </svg>
+                </div></a>
+            {% else %}
+                <a href="{% url "personal" %}"><div class="back-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                    <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                    </svg>
+                </div></a>
+            {% endif %}
+            <h1>Update Personal Details</h1>
+        </header>
+        {% if page == "fullname" %}
+            <form method="POST" action="{% url 'update_fullname' %}">
+                {% csrf_token %}
+                <label for="fullname">Full Name:</label>
+                <input type="text" id="fullname" name="fullname" value="{{ current_fullname }}">
+                <input type="submit" value="Update">
+            </form>
+        {% elif page == "gender" %}
+            <form method="POST" action="{% url 'update_gender' %}">
+                {% csrf_token %}
+                <select id="gender" name="gender" required>
+                    {% if current_gender == 0 %}
+                        <option value="0" selected>Male</option>
+                        <option value="1">Female</option>
+                    {% else %}
+                        <option value="1" selected>Female</option>
+                        <option value="0">Male</option>
+                    {% endif %}
+                </select>
+                <input type="submit" value="Update">
+            </form>
+        {% elif page == "dob" %}
+            <form method="POST" action="{% url 'update_dob' %}">
+                {% csrf_token %}
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" name="dob" value="{{ current_dob }}" required>
+                <input type="submit" value="Update">
+            </form>
+        {% elif page == "email" %}
+            <form method="POST" action="{% url 'update_email' %}">
+                {% csrf_token %}
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" value="{{ current_email }}" required>
+                <input type="submit" value="Update">
+            </form>
+        {% elif page == "nationality" %}
+            <form method="POST" action="{% url 'update_nationality' %}">
+                {% csrf_token %}
+                <label for="nationality">Nationality:</label>
+                <select name="nationality" required>
+                    <option value="" disabled selected>{{current_nationality}}</option>
+                    <option value="Vietnam">Vietnam</option>
+                    <option value="Japan">Japan</option>
+                    <option value="United Kingdom">United Kingdom (UK)</option>
+                </select>  
+                <input type="submit" value="Update">
+            </form>
+        {% elif page == "language" %}
+            <form method="POST" action="{% url 'update_language' %}">
+                {% csrf_token %}
+                <label for="languages">Languages:</label>
+                <select name="language" required>
+                    {% if current_language == "english" %}
+                        <option value="" disabled selected>English</option>
+                    {% elif current_language == "vietnamese" %}
+                    <option value="" disabled selected>Vietnamese</option>
+                    {% elif current_language == "japanese" %}
+                    <option value="" disabled selected>Japanese</option>
+                    {% endif %}
+                    <option value="english">English</option>
+                    <option value="vietnamese">Vietnamese</option>
+                    <option value="japanese">Japanese</option>
+                </select>
+                <input type="submit" value="Update">
+            </form>
+        {% elif page == "height" %}
+            <form method="POST" action="{% url 'update_height' %}">
+                {% csrf_token %}
+                <label for="height">Height:</label>
+                <input type="number" name="height" step="1" min="0" required value="{{ current_height }}">
+                <input type="submit" value="Update">
+            </form>
+        {% elif page == "weight" %}
+            <form method="POST" action="{% url 'update_weight' %}">
+                {% csrf_token %}
+                <label for="weight">Weight:</label>
+                <input type="number" name="weight" step="0.01" min="0" required value="{{ current_weight }}">
+                <input type="submit" value="Update">
+            </form>
+        {% endif %} 
+      </div>
+</body>
+</html>
