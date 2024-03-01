@@ -1,10 +1,11 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hospital Information</title>
+    <title>{% trans "Filter" %} - Vitabi</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   </head>
@@ -173,47 +174,47 @@
                     <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
                 </svg>
             </div></a>
-          <h1>Filter</h1>
-          <a href="" style="text-decoration: none; color: #000;" >Reset</a>
+          <h1>{% trans "Filter" %}</h1>
+          <a href="{% url "filter" %}" style="text-decoration: none; color: #000;" >{% trans "Reset" %}</a>
         </div>
         <hr>
         <div class="card-body">
           <form action="{% url 'findHospital' %}" method="get">
                 <label>
                     <input type="checkbox" name="affiliated_with_insurers">
-                    Affiliated with insurers
+                    {% trans "Affiliated with insurers" %}
                 </label><br>
     
                 <label>
                     <input type="checkbox" name="english_speaking_staff">
-                    English-speaking staff available
+                    {% trans "English-speaking staff available" %}
                 </label>
     
-                <h3>Distance</h3>
+                <h3>{% trans "Distance" %}</h3>
                 <label>
                     <input type="checkbox" name="distance" value="1km">
-                    Less than 1km (1)
+                    {% trans "Less than" %} 1km (1)
                 </label><br>
     
                 <label>
                     <input type="checkbox" name="distance" value="3km">
-                    Less than 3km (2)
+                    {% trans "Less than" %} 3km (2)
                 </label><br>
     
                 <label>
                     <input type="checkbox" name="distance" value="5km">
-                    Less than 5km (6)
+                    {% trans "Less than" %} 5km (6)
                 </label>
     
-                <h3>Opening Hours</h3>
+                <h3>{% trans "Opening Hours" %}</h3>
                 <label>
                     <input type="checkbox" name="opening_hours" value="current_time">
-                    Current time
+                    {% trans "Current time" %}
                 </label><br>
     
                 <label>
                     <input type="checkbox" name="opening_hours" value="midnight">
-                    Midnight (9PM~)
+                    {% trans "Midnight (9PM~)" %}
                 </label><br>
     
                 <label>
@@ -222,7 +223,7 @@
                 </label>
                 <br>
                 <div class="card-footer">
-                  <button class="proceed-button">Search</button>
+                  <button class="proceed-button">{% trans "Search" %}</button>
                 </div>
           </form>
         </div>

@@ -1,10 +1,11 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hospital Finder - Vitabi</title>
+    <title>{% trans "Find Hospital" %} - Vitabi</title>
   </head>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALbhutIu3_iq-FKIs68BqoFe__w90a0ww&callback=initMap&libraries=places"></script>
@@ -262,17 +263,17 @@
       color: #27272a;
     }
   </style>
-  <body>
+  <body data-distance-text="{% trans 'Distance' %}" data-duration-text="{% trans 'Duration' %}">
     <div class="container">
       <div class="header">
         <div class="navigation-container">
-          <div class="location-text" data-url="{% url 'home' %}"><div class="arrow">&lt;</div> Current Location</div>
+          <div class="location-text" data-url="{% url 'home' %}"><div class="arrow">&lt;</div> {% trans "Current Location" %}</div>
           <div class="buttons-container">
             <button class="sort-button" type="button">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter-left" viewBox="0 0 16 16">
                 <path d="M2 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
               </svg>
-              Sort
+              {% trans "Sort" %}
             </button>
             <a class="filter-button" href="{% url "filter" %}">
               <svg
@@ -287,7 +288,7 @@
                   d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"
                 />
               </svg>
-              Filter
+              {% trans "Filter" %}
             </a>
           </div>
         </div>
@@ -295,24 +296,26 @@
       <div class="hospital-list-container" id="hospital-list">
         {% for hospital in hospitals %}
         <div class="hospital-item {% if hospital.id in favourite_hospitals_ids %}favourite{% endif %}" data-url="{% url 'hospitalInfo' hospital.id %}" id="hospital-{{ hospital.id }}" {% if hospital.id in favourite_hospitals_ids %}data-favourite="true"{% endif %}>
-          {% if hospital.photo %}
-          <img class="hospital-photo" src="{{ hospital.photo.url }}" />
-          {% else %}
-          <img class="hospital-photo" alt="{{hospital.name}}" />
-          {% endif %}
+          {% with hospital.images.first as image %}
+            {% if image %}
+                <img class="hospital-photo" src="{{ image.photo.url }}" alt="Image for {{ hospital.name }}" />
+            {% else %}
+              <img class="hospital-photo" alt="{{hospital.name}}" />
+            {% endif %}
+          {% endwith %}
           <div class="hospital-info">
-            <div class="hospital-rating">Loading...</div>
+            <div class="hospital-rating">{% trans "Loading..." %}</div>
             {% for language in hospital.supported_languages.all %}
                 {% if language.name == "English" %}
-                    <div class="hospital-english">ENGLISH AVAILABLE</div>
+                    <div class="hospital-english">{% trans "ENGLISH AVAILABLE" %}</div>
                 {% endif %}
             {% endfor %}
             <h2>{{ hospital.name }}</h2>
-            <p class="distance" id="distance-{{ hospital.id }}">Calculating distance...</p>
-            <p class="time" id="time-{{ hospital.id }}">Calculating time...</p>
-            <p class="truncated">Open: {{ hospital.working_time }}</p>
+            <p class="distance" id="distance-{{ hospital.id }}">{% trans "Calculating distance..." %}</p>
+            <p class="time" id="time-{{ hospital.id }}">{% trans "Calculating time..." %}</p>
+            <p class="truncated">{% trans "Open" %}: {{ hospital.working_time }}</p>
             {% if hospital.direct_billing == True %}
-              <h3>Direct Billing Available</h3>
+              <h3>{% trans "Direct Billing Available" %}</h3>
             {% endif %}
             {% if hospital.id in favourite_hospitals_ids %}
                 <a class="delete-favorite-button" style="float: right;" href="{% url 'remove_from_favourites' hospital.id %}?page=findHospital">
@@ -346,9 +349,9 @@
               d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"
             />
           </svg>
-          <span>Home</span>
+          <span>{% trans "Home" %}</span>
         </a>
-        <a href="#" class="nav-link">
+        <a href="{% url "care" %}" class="nav-link">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -364,7 +367,7 @@
               d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"
             />
           </svg>
-          <span>Care</span>
+          <span>{% trans "Care" %}</span>
         </a>
         <a href="{% url 'mydata' %}" class="nav-link">
           <svg
@@ -382,7 +385,7 @@
               d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8m0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0M4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"
             />
           </svg>
-          <span>My Data</span>
+          <span>{% trans "My Data" %}</span>
         </a>
       </div>
     </div>
@@ -525,8 +528,11 @@
                                 var distanceElement = document.getElementById('distance-' + hospitalId);
                                 var timeElement = document.getElementById('time-' + hospitalId);
                                 
-                                distanceElement.innerText = `Distance: ${distanceResult.distance.text}`;
-                                timeElement.innerText = `Duration: ${distanceResult.duration.text}`;
+                                var distanceText = document.body.getAttribute('data-distance-text');
+                                var durationText = document.body.getAttribute('data-duration-text');
+                                
+                                distanceElement.innerText = `${distanceText}: ${distanceResult.distance.text}`;
+                                timeElement.innerText = `${durationText}: ${distanceResult.duration.text}`;
 
                                 hospital.setAttribute('data-distance-value', distanceResult.distance.value);
                             }

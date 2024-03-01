@@ -88,8 +88,8 @@ msgstr "ー片頭痛"
 msgid "Suggested Medicines"
 msgstr "推奨される薬"
 
-msgid "Call 911"
-msgstr "911に電話"
+msgid "Call"
+msgstr "に電話"
 
 msgid "Find Hospitals"
 msgstr "病院を検索"
@@ -99,4 +99,428 @@ msgstr "今すぐ911に電話するか、あなたの地域の対応する番号
 
 msgid "This could be an emergency. People with similar symptoms, usually need to go to the emergency department."
 msgstr "これは緊急事態かもしれません。同様の症状を持つ人々は、通常、救急部に行く必要があります。"
+
+msgid "Account"
+msgstr "アカウント"
+
+msgid "Personal Details"
+msgstr "個人情報"
+
+msgid "Medical Information"
+msgstr "医療情報"
+
+msgid "Password and Security"
+msgstr "パスワードとセキュリティ"
+
+msgid "Password & Security"
+msgstr "パスワードとセキュリティ"
+
+msgid "Sign Out"
+msgstr "ログアウト"
+
+msgid "Home"
+msgstr "ホーム"
+
+msgid "Care"
+msgstr "ケア"
+
+msgid "My Data"
+msgstr "私のデータ"
+
+msgid "Change Password"
+msgstr "パスワードを変更する"
+
+msgid "Old password"
+msgstr "古いパスワード"
+
+msgid "New password"
+msgstr "新しいパスワード"
+
+msgid "Confirm new password"
+msgstr "新しいパスワードを確認する"
+
+msgid "Change my password"
+msgstr "パスワードを変更する"
+
+msgid "Login"
+msgstr "ログイン"
+
+msgid "Log In"
+msgstr "ログイン"
+
+msgid "Enter username"
+msgstr "ユーザー名を入力してください"
+
+msgid "Enter password"
+msgstr "パスワードを入力してください"
+
+msgid "Register"
+msgstr "登録する"
+
+msgid "Don't have an account?"
+msgstr "アカウントをお持ちでないですか？"
+
+msgid "Male"
+msgstr "男性"
+
+msgid "Female"
+msgstr "女性"
+
+msgid "Height"
+msgstr "身長"
+
+msgid "Weight"
+msgstr "体重"
+
+msgid "Insurance"
+msgstr "保険"
+
+msgid "History"
+msgstr "履歴"
+
+msgid "Setting"
+msgstr "設定"
+
+msgid "Help"
+msgstr "ヘルプ"
+
+msgid "Legal"
+msgstr "法的"
+
+msgid "Saved"
+msgstr "保存されました"
+
+msgid "Password"
+msgstr "パスワード"
+
+msgid "Security"
+msgstr "セキュリティ"
+
+msgid "Name"
+msgstr "名前"
+
+msgid "Gender/Sex"
+msgstr "性別"
+
+msgid "Address"
+msgstr "住所"
+
+msgid "Email Address"
+msgstr "メールアドレス"
+
+msgid "Nationality"
+msgstr "国籍"
+
+msgid "Language you speak"
+msgstr "話す言語"
+
+msgid "Currency"
+msgstr "通貨"
+
+msgid "Local currency"
+msgstr "地元通貨"
+
+msgid "Units"
+msgstr "ユニット"
+
+msgid "Metrics"
+msgstr "メトリクス"
+
+msgid "Username"
+msgstr "ユーザー名"
+
+msgid "Full Name"
+msgstr "フルネーム"
+
+msgid "Phone Number"
+msgstr "電話番号"
+
+msgid "Select your nationality"
+msgstr "国籍を選択してください"
+
+msgid "Vietnam"
+msgstr "ベトナム"
+
+msgid "Japan"
+msgstr "日本"
+
+msgid "United Kingdom (UK)"
+msgstr "イギリス"
+
+msgid "Re-enter Password"
+msgstr "パスワードを再入力"
+
+msgid "Already have an account?"
+msgstr "すでにアカウントをお持ちですか？"
+
+msgid "Select your language"
+msgstr "言語を選択してください"
+
+msgid "Update Personal Details"
+msgstr "個人情報を更新する"
+
+msgid "Update"
+msgstr "更新"
+
+msgid "Languages"
+msgstr "言語"
+
+msgid "Update Setting"
+msgstr "設定を更新する"
+
+msgid "Date of Birth"
+msgstr "生年月日"
+
+msgid "Manage your care"
+msgstr "あなたのケアを管理する"
+
+msgid "Book appointment"
+msgstr "予約する"
+
+msgid "Conclusion Details"
+msgstr "結論の詳細"
+
+msgid "Conclusion"
+msgstr "結論"
+
+msgid "Filter"
+msgstr "フィルタ"
+
+msgid "Affiliated with insurers"
+msgstr "保険会社と提携しています"
+
+msgid "Get care for common and chronic conditions. You can also get prescriptions, referrals, and sick notes."
+msgstr "一般的な慢性疾患に対するケアを受けることができます。処方箋、紹介状、病欠証明書も取得できます。"
+
+msgid "Book an appointment for you or your family member. We’ll connect you to a clinician by phone or video chat."
+msgstr "あなたまたは家族のために予約を取ります。電話またはビデオチャットで臨床医に接続します。"
+
+msgid "English-speaking staff available"
+msgstr "英語を話せるスタッフがいます"
+
+msgid "Distance"
+msgstr "距離"
+
+msgid "Less than"
+msgstr "未満"
+
+msgid "Opening Hours"
+msgstr "営業時間"
+
+msgid "Current time"
+msgstr "現在の時刻"
+
+msgid "Midnight (9PM~)"
+msgstr "午前０時（午後9時～）"
+
+msgid "Search"
+msgstr "検索"
+
+msgid "Find Hospital"
+msgstr "病院を探す"
+
+msgid "Sort"
+msgstr "並べ替え"
+
+msgid "Loading..."
+msgstr "読み込み中..."
+
+msgid "ENGLISH AVAILABLE"
+msgstr "英語が利用可能"
+
+msgid "Calculating distance..."
+msgstr "距離を計算しています..."
+
+msgid "Calculating time..."
+msgstr "時間を計算しています..."
+
+msgid "Open"
+msgstr "オープン"
+
+msgid "Direct Billing Available"
+msgstr "直接請求が可能"
+
+msgid "Hospital Information"
+msgstr "病院情報"
+
+msgid "Insurances Supported"
+msgstr "サポートされる保険"
+
+msgid "Languages Supported"
+msgstr "サポートされる言語"
+
+msgid "Book a hospital"
+msgstr "病院を予約する"
+
+msgid "Present your insurance policy at the reception desk and ask for cashless service to be provided. (You may need your passport.)"
+msgstr "受付で保険証券を提示し、無キャッシュサービスを提供してもらってください。（パスポートが必要な場合があります。）"
+
+msgid "Receive treatment."
+msgstr "治療を受けます。"
+
+msgid "if needed."
+msgstr "必要な場合は。"
+
+msgid "Proceed to Booking"
+msgstr "予約手続きへ進む"
+
+msgid "Logout"
+msgstr "ログアウト"
+
+msgid "How can we help you?"
+msgstr "どのようにお手伝いできますか？"
+
+msgid "Check symptoms"
+msgstr "症状をチェックする"
+
+msgid "Find a hospital"
+msgstr "病院を探す"
+
+msgid "Your Latest Result"
+msgstr "最新の結果"
+
+msgid "Diagnose"
+msgstr "診断する"
+
+msgid "Continue"
+msgstr "続行"
+
+msgid "Hospital Saved"
+msgstr "病院が保存されました"
+
+msgid "Not found"
+msgstr "見つかりません"
+
+msgid "Current Location"
+msgstr "現在の場所"
+
+msgid "Reset"
+msgstr "リセット"
+
+msgid "Duration"
+msgstr "期間"
+
+msgid "Good Morning"
+msgstr "おはようございます"
+
+msgid "Good Afternoon"
+msgstr "こんにちは"
+
+msgid "Good Evening"
+msgstr "こんばんは"
+
+msgid "How can I help you?"
+msgstr "どういたしましてよろしいでしょうか？"
+
+msgid "Do you have nausea or vomiting?"
+msgstr "吐き気や嘔吐はありますか？"
+
+msgid "Are there people who have similar symptoms around you?"
+msgstr "周りに同じような症状を持つ人はいますか？"
+
+msgid "What did you eat whithin 6 hours?"
+msgstr "6時間以内に何を食べましたか？"
+
+msgid "Do you have any other symptoms?"
+msgstr "他に症状はありますか？"
+
+msgid "What kind of stool do you have?"
+msgstr "どのような便ですか？"
+
+msgid "When did your diarrhia start?"
+msgstr "下痢はいつ始まりましたか？"
+
+msgid "Have your weight change over 2.3kg?"
+msgstr "体重は2.3kg以上変わりましたか？"
+
+msgid "Do you have fever? (>37.5? )"
+msgstr "熱はありますか？ (>37.5°C?)"
+
+msgid "Do you have bloody stool?"
+msgstr "血便はありますか？"
+
+msgid "Do you wake up during sleep?"
+msgstr "睡眠中に目が覚めますか？"
+
+msgid "Are you taking immune-suppressing medications? or have you been told that your immune system is weakened?"
+msgstr "免疫抑制薬を服用していますか？または、免疫系が弱っていると言われたことはありますか？"
+
+msgid "Yes"
+msgstr "はい"
+
+msgid "No"
+msgstr "いいえ"
+
+msgid "I have diarrhia"
+msgstr "私は下痢をしています"
+
+msgid "Mayonnaise"
+msgstr "マヨネーズ"
+
+msgid "Symptoms occurred 8~14 hours after eating insufficiently reheated chicken or animalmeat."
+msgstr "十分に加熱されていない鶏肉や動物性肉を食べた8〜14時間後に症状が発生しました。"
+
+msgid "Thick, viscous stool"
+msgstr "粘り気のある濃い便"
+
+msgid "Less than 2 weeks ago"
+msgstr "2週間未満前"
+
+msgid "Fried Potato"
+msgstr "フライドポテト"
+
+msgid "Egg Salad"
+msgstr "エッグサラダ"
+
+msgid "Custard"
+msgstr "カスタード"
+
+msgid "Chicken"
+msgstr "チキン"
+
+msgid "Chinese-Style Fried Rice"
+msgstr "チャーハン"
+
+msgid "Others"
+msgstr "その他"
+
+msgid "Symptom occured 8~72 hours after eating seafood"
+msgstr "海鮮を食べてから8〜72時間後に症状が発生しました"
+
+msgid "Vomiting lasting more than 14 hours"
+msgstr "14時間以上続く嘔吐"
+
+msgid "Red diarrhia stool"
+msgstr "赤い下痢便"
+
+msgid "No other symptom"
+msgstr "他の症状はなし"
+
+msgid "Small but frequent stools"
+msgstr "少量ですが頻繁に便が出る"
+
+msgid "Large amount of water-soluble stools"
+msgstr "大量の水溶性の便"
+
+msgid "More than 2 weeks, less than 4 weeks ago"
+msgstr "2週間以上4週間未満前"
+
+msgid "More than 4 weeks ago"
+msgstr "4週間以上前"
+
+msgid "Phone number"
+msgstr "電話番号"
+
+msgid "District"
+msgstr "地区"
+
+msgid "City"
+msgstr "市"
+
+msgid "Ward"
+msgstr "区"
+
+msgid "Closed"
+msgstr "閉まっている"
+
 

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Conclusion Details - Vitabi</title>
+    <title>{% trans "Conclusion Details" %} - Vitabi</title>
   </head>
   <style>
     body,
@@ -207,7 +207,6 @@
       <div class="results-modal">
         <div class="results-header">
           <h2>{% trans "Your result" %}</h2>
-          <!-- Language Selection -->
           <form id="language-form" action="{% url 'change_language' %}" method="post">
             {% csrf_token %}
             <input type="hidden" id="next" name="next" value="{{ request.path }}">
@@ -266,7 +265,7 @@
           </div>
         </div>
         {% if conclusion.odds_condition == '>=1' %}
-          <button class="find-hospitals">{% trans "Call 911" %}</button>
+          <button class="find-hospitals">{% trans "Call" %} 911</button>
         {% elif conclusion.odds_condition == '<1' %}
           <button class="find-hospitals" data-url="{% url 'findHospital' %}">{% trans "Find Hospitals" %}</button>
         {% endif %}   

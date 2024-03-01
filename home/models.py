@@ -49,12 +49,17 @@ class Hospital(models.Model):
     supported_insurance = models.ManyToManyField(Insurance, blank=True)
     address = models.TextField(null=True, blank=True)
     phone_number = models.CharField(max_length=50, null=True, blank=True)
-    photo = models.ImageField(upload_to='hospital_photos/', blank=True, null=True)
-    map = models.ImageField(upload_to='map_photos/', blank=True, null=True)
     direct_billing = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
+
+class HospitalImage(models.Model):
+    hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE, related_name='images')
+    photo = models.ImageField(upload_to='hospital_photos/')
+
+    def __str__(self):
+        return f"{self.hospital.name}"
 
 class Question(models.Model):
     text = models.TextField()

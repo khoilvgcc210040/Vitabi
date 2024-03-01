@@ -1,10 +1,11 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hospital Information - Vitabi</title>
+    <title>{% trans "Hospital Information" %} - Vitabi</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   </head>
@@ -143,6 +144,7 @@
     .billing-info {
       border-radius: 5px;
       border: 1px solid #ccc;
+      padding: 10px;
     }
 
     .billing-info h3 {
@@ -160,6 +162,10 @@
 
     .billing-info ol {
       font-size: 15px;
+    }
+
+    .billing-info li{
+      line-height: 23px;
     }
 
     .call-info {
@@ -366,9 +372,17 @@
         <div class="card-body">
           <div class="slider">
             <div class="slides">
-              <div class="slide">
-                <img src="{{hospital.photo.url}}" alt="Image 1" onclick="enlargeImage(this)"/>
-              </div>
+
+              {% for image in hospital.images.all %}
+                <div class="slide">
+                    <img src="{{ image.photo.url }}" alt="Image for {{ hospital.name }}" onclick="enlargeImage(this)"/>
+                </div>
+              {% empty %}
+                <div class="slide">
+                    <p>No images available for this hospital.</p>
+                </div>
+              {% endfor %}
+
             </div>
             <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
             <button class="next" onclick="moveSlide(1)">&#10095;</button> 
@@ -382,12 +396,12 @@
 
           <div class="name-rate">
             <h2 style="font-size: 16px">{{hospital.name}}</h2>
-            <div class="hospital-rating">Loading...</div>
+            <div class="hospital-rating">{% trans "Loading..." %}</div>
           </div>
           <hr>
 
           {% if hospital.supported_insurance.exists %}
-            <h2 style="font-size: 16px;">Insurances Supported</h2>
+            <h2 style="font-size: 16px;">{% trans "Insurances Supported" %}</h2>
             <div class="carousel">
               {% for insurance in hospital.supported_insurance.all %}
               <div class="carousel-item {% if forloop.first %}active{% endif %}">
@@ -399,7 +413,7 @@
             </div>
           {% endif %}
 
-          <h2 style="font-size: 16px;">Languages Supported</h2>
+          <h2 style="font-size: 16px;">{% trans "Languages Supported" %}</h2>
           <div class="carousel">
             {% for language in hospital.supported_languages.all %}
             <div class="carousel-item {% if forloop.first %}active{% endif %}">
@@ -411,33 +425,32 @@
           </div>
           <br>
           <div class="billing-info">
-            <h3>Hospital Information</h3>
+            <h3>{% trans "Hospital Information" %}</h3>
             <ul>
-              <li>Open: {{hospital.working_time}}</li>
-              <li>Address: {{hospital.address}}</li>
-              <li>Phone number: {{hospital.phone_number}}</li>
+              <li>{% trans "Open" %}: {{hospital.working_time}}</li>
+              <li>{% trans "Address" %}: {{hospital.address}}</li>
+              <li>{% trans "Phone number" %}: {{hospital.phone_number}}</li>
             </ul>
           </div>
           <br>
           {% if hospital.direct_billing %}
             <div class="billing-info">
-              <h3>Direct Billing Available</h3>
+              <h3>{% trans "Direct Billing Available" %}</h3>
               <ol>
-                <li>Book a hospital</li>
+                <li>{% trans "Book a hospital" %}</li>
                 <li>
-                  Present your insurance policy at the reception desk and ask for
-                  cashless service to be provided. (You may need your passport.)
+                  {% trans "Present your insurance policy at the reception desk and ask for cashless service to be provided. (You may need your passport.)" %}
                 </li>
-                <li>Receive treatment.</li>
+                <li>{% trans "Receive treatment." %}</li>
               </ol>
-              <p class="call-info">Call {{hospital.phone_number}} if needed.</p>
+              <p class="call-info">{% trans "Call" %} {{hospital.phone_number}} {% trans "if needed." %}</p>
             </div>
             <br>
           {% endif %}
           <div id="map"></div>
         </div>
         <div class="card-footer">
-          <button class="proceed-button">Proceed to Booking</button>
+          <button class="proceed-button">{% trans "Proceed to Booking" %}</button>
         </div>
     </div>
   </body>

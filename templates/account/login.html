@@ -1,10 +1,11 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login - Vitabi</title>
+    <title>{% trans "Login" %} - Vitabi</title>
   </head>
   <style>
     body, html {
@@ -63,16 +64,16 @@
   <body>
     <div class="container">
         <a href="{% url "home" %}"><img src="{% static 'home/logo.png' %}"  class="img"></a>
-        <h2>Log In</h2>
+        <h2>{% trans "Log In" %}</h2>
 
         <form class="form" method="POST" action="">
             {% csrf_token %}
-            <input type="text" name="username" placeholder="Enter username" required>
-            <input type="password" name="password" placeholder="Enter password" required>
-            <input type="submit" value="Login"/>
+            <input type="text" name="username" placeholder="{% trans "Enter username" %}" required>
+            <input type="password" name="password" placeholder="{% trans "Enter password" %}" required>
+            <input type="submit" value="{% trans "Login" %}"/>
         </form>
 
-        <p>Don't have an account? <a href="{% url "register" %}">Sign up</a></p>
+        <p>{% trans "Don't have an account?" %} <a href="{% url "register" %}">{% trans "Register" %}</a></p>
     </div>
   </body>
 

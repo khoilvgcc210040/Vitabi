@@ -1,8 +1,9 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Conclusion - Vitabi</title>
+    <title>{% trans "Conclusion" %} - Vitabi</title>
   </head>
   <style>
     body,
@@ -161,16 +162,16 @@
       </div>
       <div class="results-modal">
         <div class="results-header">
-          <h2>Your result</h2>
+          <h2>{% trans "Your result" %}</h2>
         </div>
         <a style="text-decoration: none" href="{% url "conclusion-detail" id_conclusion %}">
           <div class="result-item">
             <div class="conclusion-section">
               <h3>{{conclusion}}</h3>
               {% if odds_conclusion == '>=1' %}
-                <p>Hospital visit recommended</p>
+                <p>{% trans "Hospital visit recommendeds" %}.</p>
               {% elif odds_conclusion == '<1' %}
-                <p>Can usually be managed at home.</p>
+                <p>{% trans "Can usually be managed at home" %}.</p>
               {% endif %}
             </div>
             <div class="percentage-section">
@@ -180,7 +181,7 @@
             </div>
           </div>
         </a>        
-        <button class="find-hospitals" data-url="{% url 'findHospital' %}">Find Hospitals</button>
+        <button class="find-hospitals" data-url="{% url 'findHospital' %}">{% trans "Find Hospitals" %}</button>
       </div>
     </div>
   </body>

@@ -1,10 +1,11 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Update Personal - Vitabi</title>
+    <title>{% trans "Update Personal Details" %} - Vitabi</title>
 </head>
 <style>
     body, html {
@@ -109,86 +110,87 @@
                     </svg>
                 </div></a>
             {% endif %}
-            <h1>Update Personal Details</h1>
+            <h1>{% trans "Update Personal Details" %}</h1>
         </header>
         {% if page == "fullname" %}
             <form method="POST" action="{% url 'update_fullname' %}">
                 {% csrf_token %}
-                <label for="fullname">Full Name:</label>
+                <label for="fullname">{% trans "Full Name" %}:</label>
                 <input type="text" id="fullname" name="fullname" value="{{ current_fullname }}">
-                <input type="submit" value="Update">
+                <input type="submit" value="{% trans "Update" %}">
             </form>
         {% elif page == "gender" %}
             <form method="POST" action="{% url 'update_gender' %}">
                 {% csrf_token %}
+                <label for="dob">{% trans "Gender/Sex" %}:</label>
                 <select id="gender" name="gender" required>
                     {% if current_gender == 0 %}
-                        <option value="0" selected>Male</option>
-                        <option value="1">Female</option>
+                        <option value="0" selected>{% trans "Male" %}</option>
+                        <option value="1">{% trans "Female" %}</option>
                     {% else %}
-                        <option value="1" selected>Female</option>
-                        <option value="0">Male</option>
+                        <option value="1" selected>{% trans "Female" %}</option>
+                        <option value="0">{% trans "Male" %}</option>
                     {% endif %}
                 </select>
-                <input type="submit" value="Update">
+                <input type="submit" value="{% trans "Update" %}">
             </form>
         {% elif page == "dob" %}
             <form method="POST" action="{% url 'update_dob' %}">
                 {% csrf_token %}
-                <label for="dob">Date of Birth:</label>
+                <label for="dob">{% trans "Date of Birth" %}:</label>
                 <input type="date" id="dob" name="dob" value="{{ current_dob }}" required>
-                <input type="submit" value="Update">
+                <input type="submit" value="{% trans "Update" %}">
             </form>
         {% elif page == "email" %}
             <form method="POST" action="{% url 'update_email' %}">
                 {% csrf_token %}
-                <label for="email">Email Address:</label>
+                <label for="email">{% trans "Email Address" %}:</label>
                 <input type="email" id="email" name="email" value="{{ current_email }}" required>
-                <input type="submit" value="Update">
+                <input type="submit" value="{% trans "Update" %}">
             </form>
         {% elif page == "nationality" %}
             <form method="POST" action="{% url 'update_nationality' %}">
                 {% csrf_token %}
-                <label for="nationality">Nationality:</label>
+                <label for="nationality">{% trans "Nationality" %}:</label>
                 <select name="nationality" required>
                     <option value="" disabled selected>{{current_nationality}}</option>
-                    <option value="Vietnam">Vietnam</option>
-                    <option value="Japan">Japan</option>
-                    <option value="United Kingdom">United Kingdom (UK)</option>
+                    <option value="Vietnam">{% trans "Vietnam" %}</option>
+                    <option value="Japan">{% trans "Japan" %}</option>
+                    <option value="United Kingdom">{% trans "United Kingdom (UK)" %}</option>
                 </select>  
-                <input type="submit" value="Update">
+                <input type="submit" value="{% trans "Update" %}">
             </form>
         {% elif page == "language" %}
             <form method="POST" action="{% url 'update_language' %}">
                 {% csrf_token %}
-                <label for="languages">Languages:</label>
+                <label for="languages">{% trans "Languages" %}:</label>
                 <select name="language" required>
                     {% if current_language == "english" %}
-                        <option value="" disabled selected>English</option>
+                        <option value="" disabled selected>{% trans "English" %}</option>
                     {% elif current_language == "vietnamese" %}
-                    <option value="" disabled selected>Vietnamese</option>
+                    <option value="" disabled selected>{% trans "Vietnamese" %}</option>
                     {% elif current_language == "japanese" %}
-                    <option value="" disabled selected>Japanese</option>
+                    <option value="" disabled selected>{% trans "Japanese" %}</option>
                     {% endif %}
-                    <option value="english">English</option>
-                    <option value="vietnamese">Vietnamese</option>
-                    <option value="japanese">Japanese</option>
+                    <option value="english">{% trans "English" %}</option>
+                    <option value="vietnamese">{% trans "Vietnamese" %}</option>
+                    <option value="japanese">{% trans "Japanese" %}</option>
                 </select>
-                <input type="submit" value="Update">
+                <input type="submit" value="{% trans "Update" %}">
             </form>
         {% elif page == "height" %}
             <form method="POST" action="{% url 'update_height' %}">
                 {% csrf_token %}
-                <label for="height">Height:</label>
+                <label for="height">{% trans "Height" %}:</label>
                 <input type="number" name="height" step="1" min="0" required value="{{ current_height }}">
-                <input type="submit" value="Update">
+                <input type="submit" value="{% trans "Update" %}">
             </form>
         {% elif page == "weight" %}
             <form method="POST" action="{% url 'update_weight' %}">
                 {% csrf_token %}
-                <label for="weight">Weight:</label>
+                <label for="weight">{% trans "Weight" %}:</label>
                 <input type="number" name="weight" step="0.01" min="0" required value="{{ current_weight }}">
-                <input type="submit" value="Update">
+                <input type="submit" value="{% trans "Update" %}">
             </form>
         {% endif %} 
       </div>

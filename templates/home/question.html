@@ -1,9 +1,9 @@
 {% load static %}
-
+{% load i18n %}
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Diagnose - Vitabi</title>
+    <title>{% trans "Diagnose" %} - Vitabi</title>
   </head>
   <style>
     body,
@@ -158,7 +158,7 @@
       </div>
       <form class="symptom-duration-form" method="POST" >
         {% csrf_token %}
-        <h2>{{ question.text }}</h2>
+        <h2>{% trans question.text %}</h2>
 
         <div class="chosse">
           {% for answer in question.answers.all %}
@@ -170,12 +170,12 @@
               value="{{ answer.id }}"
               class="answer-option"
             />
-            {{ answer.text }}
+            {% trans answer.text %}
           </label>
           {% endfor %}
         </div>
         <button type="submit" class="continue-button" style="display: none">
-          Continue
+          {% trans "Continue" %}
         </button>
       </form>
     </div>

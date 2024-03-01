@@ -1,19 +1,23 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .models import Patient, Hospital, Question, Answer, Conclusion, SymptomCheckSession, FavouriteHospital
+from .models import HospitalImage, Patient, Hospital, Question, Answer, Conclusion, SymptomCheckSession, FavouriteHospital
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.utils import translation
-from django.utils.translation import get_language_info, get_language
+from django.utils.translation import get_language_info, get_language, gettext as _
 from datetime import datetime
 from django.db.models import Case, When, Value, BooleanField
 from django.db.models import Count
-import requests
+from django.conf import settings
 
 
+
+
+def carePage(request):
+    return render(request, 'home/care.html')
 
 def loginPage(request):
     if request.user.is_authenticated:
@@ -91,15 +95,17 @@ def home(request):
     hour = current_time.hour
 
     if 6 <= hour < 12:
-        greeting = "Good Morning"
+        greeting = _("Good Morning")
     elif 12 <= hour < 18:
-        greeting = "Good Afternoon"
+        greeting = _("Good Afternoon")
     else:
-        greeting = "Good Evening"
+        greeting = _("Good Evening")
     
     last_session = None
     if request.user.is_authenticated:
         last_session = request.user.symptom_sessions.order_by('-created_at').first()
+        if last_session:
+            last_session.conclusion_text = _(last_session.conclusion_text)
         
     context = {
         'fullname': fullname,
@@ -142,7 +148,7 @@ def personalPage(request):
         'gender': gender,
         'dob': dob,
         'email': email,
-        'nationality': nationality,
+        'nationality': _(nationality),
         'language': language,
     }
 
@@ -166,16 +172,18 @@ def medicalInfoPage(request):
 
     return render(request, 'account/medicalInfo.html', context)
 
+@login_required
 def setting(request):
     current_language_code = get_language()
     current_language_info = get_language_info(current_language_code)
     
     context = {
-        'current_language': current_language_info['name'],
+        'current_language': _(current_language_info['name']),
     }
 
     return render(request, 'account/setting.html', context)
 
+@login_required
 def passwordsecurityPage(request):
     context = {}
 
@@ -282,7 +290,7 @@ def update_nationality(request):
         return redirect('personal')
     
     context = {
-        'current_nationality': patient_profile.nationality, 
+        'current_nationality': _(patient_profile.nationality), 
         'page': page,
     }
     return render(request, 'account/update_personal.html', context)
@@ -368,15 +376,20 @@ def change_language(request):
         language = request.POST.get('language', 'en')
         next_page = request.POST.get('next','/')
         translation.activate(language) 
-        print(next_page)
         if next_page == "setting":
-            return redirect('setting')
+            response = redirect('setting')
+            response.set_cookie(settings.LANGUAGE_COOKIE_NAME, language)
+            return response
         else:
-            return redirect(next_page)
+            response = redirect(next_page)
+            response.set_cookie(settings.LANGUAGE_COOKIE_NAME, language)
+            return response
         
-    
+    current_language = translation.get_language()
+        
     context = {
         'page': page,
+        'current_language': current_language,
     }
     
     return render(request, 'account/update_setting.html', context)
@@ -392,12 +405,11 @@ def findHospital(request):
         )
     ).order_by('-is_favourite', 'name') 
     
-    # Lọc dựa trên liên kết với bảo hiểm
+
     if 'affiliated_with_insurers' in request.GET:
         hospitals = hospitals.annotate(insurance_count=Count('supported_insurance')).filter(insurance_count__gt=0)
 
 
-    # Lọc dựa trên nhân viên nói tiếng Anh
     if 'english_speaking_staff' in request.GET:
         hospitals = hospitals.filter(supported_languages__name__icontains="English")
     
@@ -429,6 +441,7 @@ def remove_from_favourites(request, hospital_id):
 def hospitalInfo(request, pk):
     favourite_hospitals_ids = request.user.favourite_hospitals.values_list('hospital', flat=True)
     hospital = Hospital.objects.get(id=pk)
+
     context = {
         'hospital' : hospital,
         'favourite_hospitals_ids': favourite_hospitals_ids,
@@ -480,7 +493,7 @@ def diagnose(request, question_id=None):
             probability_percent = "{:.2%}".format(probability)
             odds_percentage = float(probability_percent.replace('%', ''))
             context = {
-                'conclusion': conclusion_text,
+                'conclusion': _(conclusion_text),
                 'odds_conclusion': odds_conclusion,
                 'id_conclusion': id_conclusion,
                 'odds': probability_percent,
@@ -502,7 +515,7 @@ def diagnose(request, question_id=None):
     else:
         if len(request.session['history']) > 1:
             previous_question_id = request.session['history'][-1]
-
+    
     context = {
         'question': question,
         'previous_question_id': previous_question_id,
@@ -522,6 +535,10 @@ def conclusion_detail(request, id_conclusion):
 
 def history(request):
     history = SymptomCheckSession.objects.all().order_by('-created_at')
+    
+    for his in history:
+        his.conclusion_text = _(his.conclusion_text)
+    
     context = {
         'histories': history
     }

@@ -1,0 +1,255 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% trans "Care" %} - Vitabi</title>
+</head>
+<style>
+  body, html {
+      margin: 0;
+      padding: 0;
+      font-family: fantasy;
+      background: #f8f8f8;
+  }
+
+  .container {
+    width: 342px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .page-header {
+      display: flex;
+      align-items: center;
+  }
+
+  .page-header .back-arrow {
+      font-size: 24px;
+      color: #007bff;
+      cursor: pointer;
+      padding-right: 15px;
+  }
+
+  .page-header path {
+    transition: color 0.3s ease;
+  }
+
+  .page-header path:hover {
+    color: #ccc; 
+  }
+
+  .page-header h1 {
+      font-size: 30px;
+      width: 100%;
+  }
+
+  .page-header a {
+      color: #3b82f6;
+      font-weight: bold;
+  }
+
+  .profile-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+  }
+
+  .profile-pic {
+      width: 150px;
+      height: 150px;
+      border-radius: 10%;
+      margin-bottom: 10px;
+  }
+
+  .profile-name {
+      margin-top: 20px;
+      font-size: 30px;
+      color: #333;
+      font-weight: bold;
+  }
+
+  .data-section {
+    text-align: center;
+    padding: 5px;
+    max-width: 400px; 
+    margin: auto;
+  }
+
+  .data-section p{
+    font-size: 17px;
+  }
+
+  .data-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px 15px;
+    max-width: 300px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 10px; 
+  }
+
+  .item-label {
+    font-weight: bold;
+    color: #333;
+  }
+
+  .item-value {
+    flex-grow: 1;
+    text-align: right;
+    margin-right: 10px;
+    font-weight: normal;
+    color: #666;
+  }
+
+  .item-action {
+    text-decoration: none;
+    color: #333;
+    font-size: 20px;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 24px; 
+    height: 24px;
+    display: flex;
+    justify-content: center;
+  }
+
+  a{
+    text-decoration: none;
+    width: 70px;
+  }
+
+  p {
+    font-size: 30px;
+    margin: 30px 0 10px 0;
+  }
+
+  .card-footer {
+    text-align: center;
+    padding: 10px;
+  }
+
+  .proceed-button {
+    width: 320px;
+    background-color: #000;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  .proceed-button:hover {
+    background-color: #333;
+  }
+
+  .sign-out {
+    display: inline-block;
+    text-decoration: none;
+    font-size: 16px;
+    color: #000;
+    background-color: #fff;
+    padding: 10px 20px;
+    border: 1px solid #000;
+    border-radius: 20px;
+    text-align: center;
+    min-width: 300px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    margin: 20px 0; 
+  }
+
+  .sign-out:hover {
+      background-color: #f8f8f8;
+      box-shadow: 0 5px 8px rgba(0, 0, 0, 0.5);
+  }
+
+  .footer {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      background-color: #f8f8f8; 
+      padding: 10px 0; 
+      color: #555;
+  }
+    
+  .nav-link {
+      text-decoration: none;
+      color: #000;
+      text-align: center;
+  }
+    
+  .nav-link img {
+      display: block;
+      margin: 0 auto; 
+      width: 24px; 
+      height: auto;
+  }
+    
+  .nav-link span {
+      display: block;
+      font-size: 12px;
+  }
+</style>
+<body>
+    <div class="container">
+      <p style="font-family: Georgia, serif;">Vitabi</p>
+      <header class="page-header">
+        <h1 style="margin: 20px 0 15px 0">{% trans "Care" %}</h1>
+        <a href="" style="text-decoration: underline;">{% trans "Help" %}</a>
+      </header>
+
+        <div class="profile-section">
+            <div class="profile-pic">
+              <img  class="profile-pic" src="{%static 'home/calendar.svg'%}" >
+            </div>
+            <div class="profile-name">{% trans "Manage your care" %}</div>
+        </div>
+
+        <div class="data-section">
+            <p style="margin: 5px 0">{% trans "Book an appointment for you or your family member. We’ll connect you to a clinician by phone or video chat." %}</p>
+            <p style="margin: 10px 0">{% trans "Get care for common and chronic conditions. You can also get prescriptions, referrals, and sick notes." %}</p>
+        </div>
+
+        <div class="card-footer">
+          <button class="proceed-button">{% trans "Book appointment" %}</button>
+        </div>
+        
+
+        <div class="footer">
+            <a href="{% url "home" %}" class="nav-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+              </svg>
+              <span>{% trans "Home" %}</span>
+            </a>
+            <a href="{% url "care" %}" class="nav-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16">
+                <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
+                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+              </svg>
+              <span>{% trans "Care" %}</span>
+            </a>
+            <a href="{% url 'mydata' %}" class="nav-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
+                <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z"/>
+                <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8m0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0M4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"/>
+              </svg>
+              <span>{% trans "My Data" %}</span>
+            </a>
+          </div>
+    </div>
+</body>
+</html>
