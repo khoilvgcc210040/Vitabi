@@ -15,7 +15,6 @@ from django.conf import settings
 
 
 
-
 def carePage(request):
     return render(request, 'home/care.html')
 
@@ -84,6 +83,7 @@ def registerPage(request):
 
 def home(request):
     request.session['completed'] = False
+    request.session['odds_session'] = None
     request.session.pop('conclusion_details', None)
     request.session.modified = True
     if request.user.is_authenticated:
@@ -369,6 +369,7 @@ def update_weight(request):
     }
     return render(request, 'account/update_personal.html', context)
 
+@login_required
 def change_language(request):
     page = "language"
     
@@ -395,7 +396,10 @@ def change_language(request):
     return render(request, 'account/update_setting.html', context)
 
 def findHospital(request):
-    favourite_hospitals_ids = request.user.favourite_hospitals.values_list('hospital', flat=True)
+    if request.user.is_authenticated:
+        favourite_hospitals_ids = request.user.favourite_hospitals.values_list('hospital', flat=True)
+    else:
+        favourite_hospitals_ids = []
     
     hospitals = Hospital.objects.annotate(
         is_favourite=Case(
@@ -419,6 +423,7 @@ def findHospital(request):
     }
     return render(request, 'home/findHospital.html', context)
 
+@login_required
 def add_to_favourites(request, hospital_id):
     hospital = get_object_or_404(Hospital, pk=hospital_id)
     FavouriteHospital.objects.get_or_create(user=request.user, hospital=hospital)
@@ -428,7 +433,7 @@ def add_to_favourites(request, hospital_id):
     if page == "hospitalInfo":
         return redirect('hospitalInfo', pk=hospital_id)
         
-
+@login_required
 def remove_from_favourites(request, hospital_id):
     hospital = get_object_or_404(Hospital, pk=hospital_id)
     FavouriteHospital.objects.filter(user=request.user, hospital=hospital).delete()
@@ -439,7 +444,11 @@ def remove_from_favourites(request, hospital_id):
         return redirect('hospitalInfo', pk=hospital_id)
 
 def hospitalInfo(request, pk):
-    favourite_hospitals_ids = request.user.favourite_hospitals.values_list('hospital', flat=True)
+    if request.user.is_authenticated:
+        favourite_hospitals_ids = request.user.favourite_hospitals.values_list('hospital', flat=True)
+    else:
+        favourite_hospitals_ids = []
+        
     hospital = Hospital.objects.get(id=pk)
 
     context = {
@@ -501,6 +510,7 @@ def diagnose(request, question_id=None):
             }
             request.session['completed'] = True 
             request.session['final_context'] = context
+            request.session['odds_session'] = probability_percent
             request.session.modified = True
             if request.user.is_authenticated:
                 SymptomCheckSession.objects.create(
@@ -524,15 +534,19 @@ def diagnose(request, question_id=None):
 
 def conclusion_detail(request, id_conclusion):
     conclusion = Conclusion.objects.get(id=id_conclusion) if id_conclusion else None
-    conclusion_session = SymptomCheckSession.objects.filter(id_conclusion=id_conclusion).order_by('-created_at').first() if id_conclusion else None
+    if request.user.is_authenticated:
+        conclusion_session = SymptomCheckSession.objects.filter(id_conclusion=id_conclusion).order_by('-created_at').first() if id_conclusion else None
+        odds_percentage = float(conclusion_session.odds_percentage.replace('%', ''))
+    else:
+        odds_percentage = float(request.session['odds_session'].replace('%', ''))
 
-    odds_percentage = float(conclusion_session.odds_percentage.replace('%', ''))
     context = {
         'conclusion': conclusion,
         'odds': odds_percentage,
     }
     return render(request, 'home/conclusion_detail.html', context)
 
+@login_required
 def history(request):
     history = SymptomCheckSession.objects.all().order_by('-created_at')
     
@@ -544,6 +558,7 @@ def history(request):
     }
     return render(request, 'home/history.html', context)
 
+@login_required
 def saved(request):
     save = FavouriteHospital.objects.all()
     context = {
