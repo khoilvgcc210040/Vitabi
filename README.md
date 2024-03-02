@@ -16,11 +16,11 @@ List all the requirements needed to install and run your project, for example:
 
 Description of installation procedure:
 
-Open terminal in project folder
-git clone https://github.com/khoilvgcc210040/Vitabi.git
-cd yourproject
-pip install -r requirements.txt
-cp .env.example .env #Change the .env.example file to an .env file
+- Open terminal in project folder
+- git clone https://github.com/khoilvgcc210040/Vitabi.git
+- cd yourproject
+- pip install -r requirements.txt
+- cp .env.example .env #Change the .env.example file to an .env file
 
 Go to settings.py. Change: ALLOWED_HOSTS = ['.vercel.app'] to ALLOWED_HOSTS = ['*']
 
