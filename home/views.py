@@ -420,6 +420,7 @@ def findHospital(request):
     context = {
         'hospitals': hospitals, 
         'favourite_hospitals_ids': favourite_hospitals_ids,
+        'google_maps_api_key': settings.GOOGLE_MAPS_API_KEY,
     }
     return render(request, 'home/findHospital.html', context)
 
@@ -454,6 +455,7 @@ def hospitalInfo(request, pk):
     context = {
         'hospital' : hospital,
         'favourite_hospitals_ids': favourite_hospitals_ids,
+        'google_maps_api_key': settings.GOOGLE_MAPS_API_KEY,
     }
     return render(request, 'home/hospitalInfo.html', context)
 
