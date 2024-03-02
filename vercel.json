@@ -11,8 +11,5 @@
       "src": "/(.*)",
       "dest": "vitabi/wsgi.py"
     }
-  ],
-  "env": {
-    "GITHUB_ACCESS_TOKEN": "@github_access_token"
-  }
+  ]
 }
