@@ -1,19 +1,25 @@
 {
+  "version": 2,
   "builds": [
     {
       "src": "vitabi/wsgi.py",
-
       "use": "@vercel/python",
-
       "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
     }
   ],
-
   "routes": [
     {
       "src": "/(.*)",
-
       "dest": "vitabi/wsgi.py"
     }
+  ],
+  "env": {
+    "DJANGO_SECRET_KEY": "@django_secret_key",
+    "DATABASE_URL": "@database_url"
+  },
+  "ignoredFiles": ["**/*.md", "**/*.txt", "tests/**"],
+  "rewrites": [
+    { "source": "/static/(.*)", "destination": "/static/$1" },
+    { "source": "/media/(.*)", "destination": "/media/$1" }
   ]
 }
