@@ -14,8 +14,7 @@
     }
   ],
   "env": {
-    "DJANGO_SECRET_KEY": "@django_secret_key",
-    "DATABASE_URL": "@database_url"
+    "GITHUB_ACCESS_TOKEN": "@github_access_token"
   },
   "ignoredFiles": ["**/*.md", "**/*.txt", "tests/**"],
   "rewrites": [
