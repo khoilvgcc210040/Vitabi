@@ -16,7 +16,6 @@
   "env": {
     "GITHUB_ACCESS_TOKEN": "@github_access_token"
   },
-  "ignoredFiles": ["**/*.md", "**/*.txt", "tests/**"],
   "rewrites": [
     { "source": "/static/(.*)", "destination": "/static/$1" },
     { "source": "/media/(.*)", "destination": "/media/$1" }
