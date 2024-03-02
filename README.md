@@ -20,7 +20,9 @@ Open terminal in project folder
 git clone https://github.com/khoilvgcc210040/Vitabi.git
 cd yourproject
 pip install -r requirements.txt
-cp .env.example .env
+cp .env.example .env #Change the .env.example file to an .env file
+
+Go to settings.py. Change: ALLOWED_HOSTS = ['.vercel.app'] to ALLOWED_HOSTS = ['*']
 
 Open the .env file and fill in the necessary values:
 GOOGLE_MAPS_API_KEY=<Your_Google_Maps_API_Key_Here>
