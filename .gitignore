@@ -2,6 +2,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+.env
+env/
+ENV/
+
 .DS_Store
 
 .idea/
