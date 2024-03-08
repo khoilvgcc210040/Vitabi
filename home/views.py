@@ -18,6 +18,7 @@ import requests
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 import json
+import re
 
 
 
@@ -432,12 +433,13 @@ def findHospital(request):
 
     user_location = ''
     if request.method == "POST":
-        data = json.loads(request.body.decode('utf-8'))  # decode từ bytes sang string
+        data = json.loads(request.body.decode('utf-8'))  
         user_location = data.get('user_location', '')
 
         for hospital in hospitals:
             distance_info, created = DistanceInfo.objects.get_or_create(hospital=hospital)
             if created or now() - distance_info.last_updated > timedelta(minutes=30):
+                DistanceInfo.objects.all().delete()
                 distance_text, duration_text = fetch_distance_and_duration(user_location, hospital.name)
                 distance_info.distance_text = distance_text
                 distance_info.duration_text = duration_text
@@ -445,12 +447,14 @@ def findHospital(request):
                 distance_info.save()
     
     for hospital in hospitals:
-        if hospital.rating is None or now() - hospital.updated_at > timedelta(days=30): # Ví dụ cập nhật sau mỗi 30 ngày
+        if hospital.rating is None or now() - hospital.updated_at > timedelta(days=30): 
             update_hospital_rating(hospital)
 
     distance_infos = {hospital.id: {'distance_text': None, 'duration_text': None} for hospital in hospitals}
     for hospital in hospitals:
         distance_info = DistanceInfo.objects.filter(hospital=hospital).first()
+        if distance_info.distance_text and ',' in distance_info.distance_text:
+            distance_info.distance_text = distance_info.distance_text.replace(',', '')
         if distance_info:
             distance_infos[hospital.id] = {
                 'distance_text': distance_info.distance_text,

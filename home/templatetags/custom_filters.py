@@ -20,7 +20,7 @@ def to_float(value):
 def hospital_id(value, arg):
     return value.get(arg)
 
-@register.filter(name='get_distance_info')
-def get_distance_info(distance_infos, hospital_id):
-    return distance_infos.get(str(hospital_id), {'distance_text': 'Unknown', 'duration_text': 'Unknown'})
+@register.filter
+def get_distance_value(distance_infos, hospital_id):
+    return distance_infos.get(hospital_id, {}).get('distance_text', '')
 

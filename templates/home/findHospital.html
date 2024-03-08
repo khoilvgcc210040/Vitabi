@@ -428,31 +428,29 @@
     if (sortButton) {
         sortButton.addEventListener('click', sortHospitalsByDistance);
     }
+    
+    initMap(); 
   }); 
 
   function sortHospitalsByDistance() {
     const hospitalListContainer = document.getElementById('hospital-list');
     let hospitals = Array.from(hospitalListContainer.querySelectorAll('.hospital-item'));
 
-    hospitals.sort((a, b) => {
-        let distanceA = a.getAttribute('data-distance-value') ? parseFloat(a.getAttribute('data-distance-value')) : Number.MAX_VALUE;
-        let distanceB = b.getAttribute('data-distance-value') ? parseFloat(b.getAttribute('data-distance-value')) : Number.MAX_VALUE;
+    let favouriteHospitals = hospitals.filter(hospital => hospital.dataset.favourite === 'true');
+    let otherHospitals = hospitals.filter(hospital => hospital.dataset.favourite !== 'true');
+
+    otherHospitals.sort((a, b) => {
+        let distanceA = parseFloat(a.getAttribute('data-distance-value')) || Number.MAX_VALUE;
+        let distanceB = parseFloat(b.getAttribute('data-distance-value')) || Number.MAX_VALUE;
         return isSortedAscending ? distanceA - distanceB : distanceB - distanceA;
     });
 
-    while (hospitalListContainer.firstChild) {
-        hospitalListContainer.removeChild(hospitalListContainer.firstChild);
-    }
-
-    hospitals.forEach(hospital => {
-        hospitalListContainer.appendChild(hospital);
-    });
+    let sortedHospitals = [...favouriteHospitals, ...otherHospitals];
+    sortedHospitals.forEach(hospital => hospitalListContainer.appendChild(hospital));
 
     isSortedAscending = !isSortedAscending;
-  }
+  } 
 
-
-  
   function initMap() {
     sendUserLocation();
   }
@@ -497,6 +495,4 @@
       }
       return cookieValue;
   }
-
-  window.onload = sendUserLocation;
 </script>
