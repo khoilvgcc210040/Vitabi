@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import HospitalImage, Patient, Hospital, Language, Insurance, Question, Answer, Conclusion, SymptomCheckSession, FavouriteHospital
+from .models import DistanceInfo, HospitalImage, Patient, Hospital, Language, Insurance, Question, Answer, Conclusion, SymptomCheckSession, FavouriteHospital
 
 admin.site.register(Patient)
 admin.site.register(Hospital)
@@ -15,5 +15,6 @@ admin.site.register(Conclusion)
 admin.site.register(SymptomCheckSession)
 admin.site.register(FavouriteHospital)
 admin.site.register(HospitalImage)
+admin.site.register(DistanceInfo)
 
 

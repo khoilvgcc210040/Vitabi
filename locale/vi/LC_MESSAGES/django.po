@@ -34,6 +34,9 @@ msgstr "Ngôn ngữ"
 msgid "Your result"
 msgstr "Kết quả"
 
+msgid "Information distance not available."
+msgstr "Khoảng cách thông tin không có sẵn."
+
 msgid "You likely do not have infectious diarrhea, but you should go hospital"
 msgstr "Có thể bạn không bị tiêu chảy truyền nhiễm nhưng nên đến bệnh viện"
 

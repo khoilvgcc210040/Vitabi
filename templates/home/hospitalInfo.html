@@ -396,7 +396,7 @@
 
           <div class="name-rate">
             <h2 style="font-size: 16px">{{hospital.name}}</h2>
-            <div class="hospital-rating">{% trans "Loading..." %}</div>
+            <div class="hospital-rating">{{ hospital.rating }}</div>
           </div>
           <hr>
 
@@ -493,28 +493,6 @@
         };
     }
 
-    function getHospitalRating(hospitalName, hospitalRatingElement) {
-      var request = {
-          query: hospitalName + " hospital",
-          fields: ['name', 'rating'],
-      };
-  
-      var service = new google.maps.places.PlacesService(document.createElement('div'));
-  
-      service.findPlaceFromQuery(request, function(results, status) {
-          if (status === google.maps.places.PlacesServiceStatus.OK) {
-              if (results.length > 0) {
-                  var hospitalRating = results[0].rating.toFixed(1);
-                  hospitalRatingElement.text(hospitalRating);
-              } else {
-                  console.log("Could not find library");
-              }
-          } else {
-              console.log("Error when searching for a hospital: " + status);
-          }
-      });
-    }
-
     function initMap() {
       const geocoder = new google.maps.Geocoder();
     
@@ -535,10 +513,6 @@
           alert('Geocode was not successful for the following reason: ' + status);
         }
       });
-
-      var hospitalName = "{{ hospital.name }}";
-      var hospitalRatingElement = $(".hospital-rating");
-      getHospitalRating(hospitalName, hospitalRatingElement);
     }    
 </script>
   

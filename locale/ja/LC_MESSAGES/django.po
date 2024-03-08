@@ -34,6 +34,9 @@ msgstr "言語"
 msgid "Your result"
 msgstr "結果"
 
+msgid "Information distance not available."
+msgstr "情報距離がありません."
+
 msgid "You likely do not have infectious diarrhea, but you should go hospital"
 msgstr "感染性の下痢ではない可能性がありますが、病院に行く必要があります"
 

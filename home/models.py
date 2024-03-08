@@ -50,6 +50,8 @@ class Hospital(models.Model):
     address = models.TextField(null=True, blank=True)
     phone_number = models.CharField(max_length=50, null=True, blank=True)
     direct_billing = models.BooleanField(default=False)
+    rating = models.DecimalField(max_digits=3, decimal_places=1, null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -114,6 +116,15 @@ class FavouriteHospital(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.hospital.name}"
+    
+class DistanceInfo(models.Model):
+    hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE, related_name='distance_info')
+    distance_text = models.CharField(max_length=100)
+    duration_text = models.CharField(max_length=100)
+    last_updated = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.distance_text}, {self.duration_text} to {self.hospital.name}"
 
 
     

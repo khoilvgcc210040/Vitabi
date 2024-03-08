@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .models import HospitalImage, Patient, Hospital, Question, Answer, Conclusion, SymptomCheckSession, FavouriteHospital
+from .models import DistanceInfo, HospitalImage, Patient, Hospital, Question, Answer, Conclusion, SymptomCheckSession, FavouriteHospital
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
@@ -12,6 +12,12 @@ from datetime import datetime
 from django.db.models import Case, When, Value, BooleanField
 from django.db.models import Count
 from django.conf import settings
+from django.utils.timezone import now
+from datetime import timedelta
+import requests
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
+import json
 
 
 
@@ -395,33 +401,69 @@ def change_language(request):
     
     return render(request, 'account/update_setting.html', context)
 
+def update_hospital_rating(hospital):
+    new_rating = fetch_hospital_rating(hospital.name)
+    if new_rating is not None:
+        hospital.rating = new_rating
+        hospital.updated_at = now()  # Giả sử đã thêm trường updated_at vào model Hospital
+        hospital.save()
+
+@csrf_exempt
+@require_http_methods(["GET", "POST"])
 def findHospital(request):
     if request.user.is_authenticated:
         favourite_hospitals_ids = request.user.favourite_hospitals.values_list('hospital', flat=True)
     else:
         favourite_hospitals_ids = []
-    
+
     hospitals = Hospital.objects.annotate(
         is_favourite=Case(
             When(id__in=list(favourite_hospitals_ids), then=Value(True)),
             default=Value(False),
             output_field=BooleanField()
         )
-    ).order_by('-is_favourite', 'name') 
-    
+    ).order_by('-is_favourite', 'name')
 
     if 'affiliated_with_insurers' in request.GET:
         hospitals = hospitals.annotate(insurance_count=Count('supported_insurance')).filter(insurance_count__gt=0)
 
-
     if 'english_speaking_staff' in request.GET:
         hospitals = hospitals.filter(supported_languages__name__icontains="English")
+
+    user_location = ''
+    if request.method == "POST":
+        data = json.loads(request.body.decode('utf-8'))  # decode từ bytes sang string
+        user_location = data.get('user_location', '')
+
+        for hospital in hospitals:
+            distance_info, created = DistanceInfo.objects.get_or_create(hospital=hospital)
+            if created or now() - distance_info.last_updated > timedelta(minutes=30):
+                distance_text, duration_text = fetch_distance_and_duration(user_location, hospital.name)
+                distance_info.distance_text = distance_text
+                distance_info.duration_text = duration_text
+                distance_info.last_updated = now()
+                distance_info.save()
     
+    for hospital in hospitals:
+        if hospital.rating is None or now() - hospital.updated_at > timedelta(days=30): # Ví dụ cập nhật sau mỗi 30 ngày
+            update_hospital_rating(hospital)
+
+    distance_infos = {hospital.id: {'distance_text': None, 'duration_text': None} for hospital in hospitals}
+    for hospital in hospitals:
+        distance_info = DistanceInfo.objects.filter(hospital=hospital).first()
+        if distance_info:
+            distance_infos[hospital.id] = {
+                'distance_text': distance_info.distance_text,
+                'duration_text': distance_info.duration_text,
+            }
+
     context = {
-        'hospitals': hospitals, 
+        'hospitals': hospitals,
+        'distance_infos': distance_infos,
         'favourite_hospitals_ids': favourite_hospitals_ids,
         'google_maps_api_key': settings.GOOGLE_MAPS_API_KEY,
     }
+
     return render(request, 'home/findHospital.html', context)
 
 @login_required
@@ -572,6 +614,38 @@ def filter(request):
     context = {}
     return render(request, 'home/filter.html', context)
 
+def fetch_distance_and_duration(origin, destination):
+    api_url = "https://maps.googleapis.com/maps/api/distancematrix/json"
+    params = {
+        'origins': origin,
+        'destinations': destination,
+        'key': settings.GOOGLE_MAPS_API_KEY,
+    }
+    response = requests.get(api_url, params=params)
+    data = response.json()
+
+    if data['status'] == 'OK':
+        element = data['rows'][0]['elements'][0]
+        if element['status'] == 'OK':
+            distance_text = element['distance']['text']
+            duration_text = element['duration']['text']
+            return distance_text, duration_text
+    return None, None
+
+def fetch_hospital_rating(hospital_name):
+    api_url = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json"
+    params = {
+        'input': hospital_name + " hospital",
+        'inputtype': 'textquery',
+        'fields': 'rating',
+        'key': settings.GOOGLE_MAPS_API_KEY,
+    }
+    response = requests.get(api_url, params=params)
+    data = response.json()
+
+    if data['status'] == 'OK' and data['candidates']:
+        return data['candidates'][0].get('rating')
+    return None
 
 
 
