@@ -600,7 +600,7 @@ def conclusion_detail(request, id_conclusion):
 
 @login_required
 def history(request):
-    history = SymptomCheckSession.objects.all().order_by('-created_at')
+    history = SymptomCheckSession.objects.filter(user=request.user).order_by('-created_at')
     
     for his in history:
         his.conclusion_text = _(his.conclusion_text)
@@ -612,7 +612,7 @@ def history(request):
 
 @login_required
 def saved(request):
-    save = FavouriteHospital.objects.all()
+    save = FavouriteHospital.objects.filter(user=request.user)
     context = {
         'saved': save
     }
