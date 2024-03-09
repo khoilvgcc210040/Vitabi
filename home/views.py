@@ -410,7 +410,6 @@ def update_hospital_rating(hospital):
         hospital.save()
 
 @csrf_exempt
-@require_http_methods(["GET", "POST"])
 def findHospital(request):
     if request.user.is_authenticated:
         favourite_hospitals_ids = request.user.favourite_hospitals.values_list('hospital', flat=True)
@@ -433,13 +432,18 @@ def findHospital(request):
 
     user_location = ''
     if request.method == "POST":
-        data = json.loads(request.body.decode('utf-8'))  
+        data = json.loads(request.body) 
         user_location = data.get('user_location', '')
 
         for hospital in hospitals:
-            distance_info, created = DistanceInfo.objects.get_or_create(hospital=hospital)
+            distance_info = DistanceInfo.objects.filter(hospital=hospital).first()
+            if distance_info is None:
+                distance_info = DistanceInfo.objects.create(hospital=hospital)
+                created = True
+            else:
+                created = False
+            
             if created or now() - distance_info.last_updated > timedelta(minutes=30):
-                DistanceInfo.objects.all().delete()
                 distance_text, duration_text = fetch_distance_and_duration(user_location, hospital.name)
                 distance_info.distance_text = distance_text
                 distance_info.duration_text = duration_text

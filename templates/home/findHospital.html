@@ -9,13 +9,13 @@
     <title>{% trans "Find Hospital" %} - Vitabi</title>
   </head>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap&libraries=places"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&libraries=places"></script>
   <style>
     html, body {
       font-family: fantasy;
       margin: 0;
       padding: 0;
-      background: #f8f8f8;
+      background: #94a3b8;
     }
 
     .container {
@@ -429,7 +429,7 @@
         sortButton.addEventListener('click', sortHospitalsByDistance);
     }
     
-    initMap(); 
+    sendUserLocation();
   }); 
 
   function sortHospitalsByDistance() {
@@ -450,10 +450,6 @@
 
     isSortedAscending = !isSortedAscending;
   } 
-
-  function initMap() {
-    sendUserLocation();
-  }
 
   function sendUserLocation() {
     if (navigator.geolocation) {
